@@ -19,6 +19,7 @@ class REGISTERS{
 
 class PC{
     public:
+        PC(){}
         PC(const char* c){create(c);};//构造函数，传进去一个参数
         char* get_val();
         PC operator+(int i);//pc+int，返回一个新的PC类，注意是深拷贝不是浅拷贝
