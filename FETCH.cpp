@@ -3,7 +3,15 @@ using namespace std;
 void FETCH::fetch(){
     SelectPC();//pc已经是正确的pc了
     icode=0xF&(imemory[pc._get_val()]>>4);
+    if(icode>0xB){
+        stat=4;
+        return;
+    }
     ifun=0xF&imemory[pc._get_val()];
+    if(ifun>6||func[icode][ifun]==nullptr){
+        stat=4;
+        return;
+    }
     (this->*func[icode][ifun])();
 }
 
@@ -17,10 +25,9 @@ void FETCH::Initfunc(){
     func[2][4]=&cmovne;
     func[2][5]=&cmovge;
     func[2][6]=&cmovg;
-    func[2][7]=&mrmove;
     func[3][0]=&irmovq;
     func[4][0]=&rmmovq;
-    func[5][0]=&mrmove;
+    func[5][0]=&mrmovq;
     func[6][0]=&OPq_addq;
     func[6][1]=&OPq_subq;
     func[6][2]=&OPq_andq;
@@ -38,142 +45,157 @@ void FETCH::Initfunc(){
     func[0xB][0]=&popq;
 }
 
-void FETCH::halt()
-{
+void FETCH::SelectPC(){
 
+}//从M_valA、W_valM、predPC中选取合适的更新pc
+
+void FETCH::halt(){
+    stat=2;
 }
 
-void FETCH::nop()
-{
-
+void FETCH::nop(){
+    valP.write_val(pc._get_val()+1);
 }
 
-void FETCH::rrmovq()
-{
-
+void FETCH::rrmovq(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valP.write_val(pc._get_val()+2);
 }
 
-void FETCH::cmovle()
-{
-
+void FETCH::cmovle(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valP.write_val(pc._get_val()+2);
 }
 
-void FETCH::cmovl()
-{
-
+void FETCH::cmovl(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valP.write_val(pc._get_val()+2);
 }
 
-void FETCH::cmove()
-{
-
+void FETCH::cmove(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valP.write_val(pc._get_val()+2);
 }
 
-void FETCH::cmovne()
-{
-
+void FETCH::cmovne(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valP.write_val(pc._get_val()+2);
 }
 
-void FETCH::cmovge()
-{
-
+void FETCH::cmovge(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valP.write_val(pc._get_val()+2);
 }
 
-void FETCH::cmovg()
-{
-
+void FETCH::cmovg(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valP.write_val(pc._get_val()+2);
 }
 
-void FETCH::mrmove()
-{
-
+void FETCH::irmovq(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valC.write_val(imemory+pc._get_val()+2);
+    valP.write_val(pc._get_val()+10);
 }
 
-void FETCH::irmovq()
-{
-
+void FETCH::rmmovq(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valC.write_val(imemory+pc._get_val()+2);
+    valP.write_val(pc._get_val()+10);
 }
 
-void FETCH::rmmovq()
-{
-
+void FETCH::mrmovq(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valC.write_val(imemory+pc._get_val()+2);
+    valP.write_val(pc._get_val()+10);
 }
 
-void FETCH::mrmovq()
-{
-
+void FETCH::OPq_addq(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valP.write_val(pc._get_val()+2);
 }
 
-void FETCH::OPq_addq()
-{
-
+void FETCH::OPq_subq(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valP.write_val(pc._get_val()+2);
 }
 
-void FETCH::OPq_subq()
-{
-
+void FETCH::OPq_andq(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valP.write_val(pc._get_val()+2);
 }
 
-void FETCH::OPq_andq()
-{
-
+void FETCH::OPq_xorq(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valP.write_val(pc._get_val()+2);
 }
 
-void FETCH::OPq_xorq()
-{
-
+void FETCH::jmp(){
+    valC.write_val(imemory+pc._get_val()+1);
+    valP.write_val(pc._get_val()+9);
 }
 
-void FETCH::jmp()
-{
-
+void FETCH::jle(){
+    valC.write_val(imemory+pc._get_val()+1);
+    valP.write_val(pc._get_val()+9);
 }
 
-void FETCH::jle()
-{
-
+void FETCH::jl(){
+    valC.write_val(imemory+pc._get_val()+1);
+    valP.write_val(pc._get_val()+9);
 }
 
-void FETCH::jl()
-{
-
+void FETCH::je(){
+    valC.write_val(imemory+pc._get_val()+1);
+    valP.write_val(pc._get_val()+9);
 }
 
-void FETCH::je()
-{
-
+void FETCH::jne(){
+    valC.write_val(imemory+pc._get_val()+1);
+    valP.write_val(pc._get_val()+9);
 }
 
-void FETCH::jne()
-{
-
+void FETCH::jge(){
+    valC.write_val(imemory+pc._get_val()+1);
+    valP.write_val(pc._get_val()+9);
 }
 
-void FETCH::jge()
-{
-
+void FETCH::jg(){
+    valC.write_val(imemory+pc._get_val()+1);
+    valP.write_val(pc._get_val()+9);
 }
 
-void FETCH::jg()
-{
-
+void FETCH::call(){
+    valC.write_val(imemory+pc._get_val()+1);
+    valP.write_val(pc._get_val()+9);
 }
 
-void FETCH::call()
-{
-
+void FETCH::ret(){
+    valP.write_val(pc._get_val()+1);
 }
 
-void FETCH::ret()
-{
-
+void FETCH::pushq(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valP.write_val(pc._get_val()+2);
 }
 
-void FETCH::pushq()
-{
-
-}
-
-void FETCH::popq()
-{
-
+void FETCH::popq(){
+    rA=0xF&(imemory[pc._get_val()+1]>>4);
+    rB=0xF&imemory[pc._get_val()+1];
+    valP.write_val(pc._get_val()+2);
 }

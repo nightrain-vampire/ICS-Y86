@@ -9,6 +9,11 @@ bool REGISTER::write_val(const char* nval){
     return true;
 }
 
+bool REGISTER::write_val(long long nval){
+    val.ll=nval;
+    return true;
+}
+
 long long REGISTER::_get_val(){
     return val.ll;
 }

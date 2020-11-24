@@ -11,6 +11,7 @@ class REGISTER{
         char* get_val();//读取数据的接口为.get_val()
         long long _get_val();//按照long long来解释val()
         bool write_val(const char* nval);//用char数组写数据的接口为.write_val()
+        bool write_val(long long nval);
         REGISTER& operator=(REGISTER& r);//用REGISTER类可以直接赋值;
     private:
         Val val;
