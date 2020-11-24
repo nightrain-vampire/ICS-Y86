@@ -1,13 +1,13 @@
-#include"common.h"
-
-class F_REGISTER
-{
+#pragma once
+#include"R.h"
+using namespace std;
+class F{//F流水线寄存器，需要实现的功能有：读入一个REGISTER类的PredictPC、输出一个REGISTER类的predPC
     public:
-        F_REGISTER(){}
-
-        char* read_predPC(){return predPC.get_val();}
-        void write_predPC(const char* s){predPC.write_val(s);}
+        F(){};
+        // void bubble();
+        REGISTER get_val();//读数据
+        bool write_val(const REGISTER& PredictPC);//写数据
 
     private:
-        REGISTER predPC;
+        REGISTER predPC;//初值是0
 };
