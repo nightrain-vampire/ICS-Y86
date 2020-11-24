@@ -1,6 +1,6 @@
 #include"MEMORY.h"
 using namespace std;
-void MEMORY::fetch()
+void MEMORY::Mem()
 {
     icode=0xF&(imemory[pc._get_val()]>>4);
     ifun=0xF&imemory[pc._get_val()];

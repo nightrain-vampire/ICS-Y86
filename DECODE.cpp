@@ -1,6 +1,6 @@
 #include"DECODE.h"
 using namespace std;
-void DECODE::fetch()
+void DECODE::decode()
 {
     icode=0xF&(imemory[pc._get_val()]>>4);
     ifun=0xF&imemory[pc._get_val()];

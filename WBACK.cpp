@@ -1,6 +1,6 @@
 #include"WBACK.h"
 using namespace std;
-void WBACK::fetch()
+void WBACK::wback()
 {
     icode=0xF&(imemory[pc._get_val()]>>4);
     ifun=0xF&imemory[pc._get_val()];

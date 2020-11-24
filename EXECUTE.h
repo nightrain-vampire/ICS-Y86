@@ -4,7 +4,7 @@ class EXECUTE
 {
     public:
         EXECUTE(){Initfunc();};
-        void fetch();//直接调用它就行
+        void execute();//直接调用它就行
         void Initfunc();//初始化函数指针数组
 
         void halt();

@@ -1,6 +1,6 @@
 #include"EXECUTE.h"
 using namespace std;
-void EXECUTE::fetch()
+void EXECUTE::execute()
 {
     icode=0xF&(imemory[pc._get_val()]>>4);
     ifun=0xF&imemory[pc._get_val()];
