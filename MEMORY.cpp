@@ -38,3 +38,143 @@ void MEMORY::Initfunc()
     func[0xA][0]=&pushq;
     func[0xB][0]=&popq;
 }
+
+void MEMORY::halt()
+{
+
+}
+
+void MEMORY::nop()
+{
+
+}
+
+void MEMORY::rrmovq()
+{
+
+}
+
+void MEMORY::cmovle()
+{
+
+}
+
+void MEMORY::cmovl()
+{
+
+}
+
+void MEMORY::cmove()
+{
+
+}
+
+void MEMORY::cmovne()
+{
+
+}
+
+void MEMORY::cmovge()
+{
+
+}
+
+void MEMORY::cmovg()
+{
+
+}
+
+void MEMORY::mrmove()
+{
+
+}
+
+void MEMORY::irmovq()
+{
+
+}
+
+void MEMORY::rmmovq()
+{
+
+}
+
+void MEMORY::mrmovq()
+{
+
+}
+
+void MEMORY::OPq_addq()
+{
+
+}
+
+void MEMORY::OPq_subq()
+{
+
+}
+
+void MEMORY::OPq_andq()
+{
+
+}
+
+void MEMORY::OPq_xorq()
+{
+
+}
+
+void MEMORY::jmp()
+{
+
+}
+
+void MEMORY::jle()
+{
+
+}
+
+void MEMORY::jl()
+{
+
+}
+
+void MEMORY::je()
+{
+
+}
+
+void MEMORY::jne()
+{
+
+}
+
+void MEMORY::jge()
+{
+
+}
+
+void MEMORY::jg()
+{
+
+}
+
+void MEMORY::call()
+{
+
+}
+
+void MEMORY::ret()
+{
+
+}
+
+void MEMORY::pushq()
+{
+
+}
+
+void MEMORY::popq()
+{
+
+}

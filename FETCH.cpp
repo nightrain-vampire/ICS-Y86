@@ -37,3 +37,143 @@ void FETCH::Initfunc(){
     func[0xA][0]=&pushq;
     func[0xB][0]=&popq;
 }
+
+void FETCH::halt()
+{
+
+}
+
+void FETCH::nop()
+{
+
+}
+
+void FETCH::rrmovq()
+{
+
+}
+
+void FETCH::cmovle()
+{
+
+}
+
+void FETCH::cmovl()
+{
+
+}
+
+void FETCH::cmove()
+{
+
+}
+
+void FETCH::cmovne()
+{
+
+}
+
+void FETCH::cmovge()
+{
+
+}
+
+void FETCH::cmovg()
+{
+
+}
+
+void FETCH::mrmove()
+{
+
+}
+
+void FETCH::irmovq()
+{
+
+}
+
+void FETCH::rmmovq()
+{
+
+}
+
+void FETCH::mrmovq()
+{
+
+}
+
+void FETCH::OPq_addq()
+{
+
+}
+
+void FETCH::OPq_subq()
+{
+
+}
+
+void FETCH::OPq_andq()
+{
+
+}
+
+void FETCH::OPq_xorq()
+{
+
+}
+
+void FETCH::jmp()
+{
+
+}
+
+void FETCH::jle()
+{
+
+}
+
+void FETCH::jl()
+{
+
+}
+
+void FETCH::je()
+{
+
+}
+
+void FETCH::jne()
+{
+
+}
+
+void FETCH::jge()
+{
+
+}
+
+void FETCH::jg()
+{
+
+}
+
+void FETCH::call()
+{
+
+}
+
+void FETCH::ret()
+{
+
+}
+
+void FETCH::pushq()
+{
+
+}
+
+void FETCH::popq()
+{
+
+}

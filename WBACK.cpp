@@ -38,3 +38,143 @@ void WBACK::Initfunc()
     func[0xA][0]=&pushq;
     func[0xB][0]=&popq;
 }
+
+void WBACK::halt()
+{
+
+}
+
+void WBACK::nop()
+{
+
+}
+
+void WBACK::rrmovq()
+{
+
+}
+
+void WBACK::cmovle()
+{
+
+}
+
+void WBACK::cmovl()
+{
+
+}
+
+void WBACK::cmove()
+{
+
+}
+
+void WBACK::cmovne()
+{
+
+}
+
+void WBACK::cmovge()
+{
+
+}
+
+void WBACK::cmovg()
+{
+
+}
+
+void WBACK::mrmove()
+{
+
+}
+
+void WBACK::irmovq()
+{
+
+}
+
+void WBACK::rmmovq()
+{
+
+}
+
+void WBACK::mrmovq()
+{
+
+}
+
+void WBACK::OPq_addq()
+{
+
+}
+
+void WBACK::OPq_subq()
+{
+
+}
+
+void WBACK::OPq_andq()
+{
+
+}
+
+void WBACK::OPq_xorq()
+{
+
+}
+
+void WBACK::jmp()
+{
+
+}
+
+void WBACK::jle()
+{
+
+}
+
+void WBACK::jl()
+{
+
+}
+
+void WBACK::je()
+{
+
+}
+
+void WBACK::jne()
+{
+
+}
+
+void WBACK::jge()
+{
+
+}
+
+void WBACK::jg()
+{
+
+}
+
+void WBACK::call()
+{
+
+}
+
+void WBACK::ret()
+{
+
+}
+
+void WBACK::pushq()
+{
+
+}
+
+void WBACK::popq()
+{
+
+}

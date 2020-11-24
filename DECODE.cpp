@@ -38,3 +38,143 @@ void DECODE::Initfunc()
     func[0xA][0]=&pushq;
     func[0xB][0]=&popq;
 }
+
+void DECODE::halt()
+{
+
+}
+
+void DECODE::nop()
+{
+
+}
+
+void DECODE::rrmovq()
+{
+
+}
+
+void DECODE::cmovle()
+{
+
+}
+
+void DECODE::cmovl()
+{
+
+}
+
+void DECODE::cmove()
+{
+
+}
+
+void DECODE::cmovne()
+{
+
+}
+
+void DECODE::cmovge()
+{
+
+}
+
+void DECODE::cmovg()
+{
+
+}
+
+void DECODE::mrmove()
+{
+
+}
+
+void DECODE::irmovq()
+{
+
+}
+
+void DECODE::rmmovq()
+{
+
+}
+
+void DECODE::mrmovq()
+{
+
+}
+
+void DECODE::OPq_addq()
+{
+
+}
+
+void DECODE::OPq_subq()
+{
+
+}
+
+void DECODE::OPq_andq()
+{
+
+}
+
+void DECODE::OPq_xorq()
+{
+
+}
+
+void DECODE::jmp()
+{
+
+}
+
+void DECODE::jle()
+{
+
+}
+
+void DECODE::jl()
+{
+
+}
+
+void DECODE::je()
+{
+
+}
+
+void DECODE::jne()
+{
+
+}
+
+void DECODE::jge()
+{
+
+}
+
+void DECODE::jg()
+{
+
+}
+
+void DECODE::call()
+{
+
+}
+
+void DECODE::ret()
+{
+
+}
+
+void DECODE::pushq()
+{
+
+}
+
+void DECODE::popq()
+{
+
+}

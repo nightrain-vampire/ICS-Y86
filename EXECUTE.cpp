@@ -38,3 +38,143 @@ void EXECUTE::Initfunc()
     func[0xA][0]=&pushq;
     func[0xB][0]=&popq;
 }
+
+void EXECUTE::halt()
+{
+
+}
+
+void EXECUTE::nop()
+{
+
+}
+
+void EXECUTE::rrmovq()
+{
+
+}
+
+void EXECUTE::cmovle()
+{
+
+}
+
+void EXECUTE::cmovl()
+{
+
+}
+
+void EXECUTE::cmove()
+{
+
+}
+
+void EXECUTE::cmovne()
+{
+
+}
+
+void EXECUTE::cmovge()
+{
+
+}
+
+void EXECUTE::cmovg()
+{
+
+}
+
+void EXECUTE::mrmove()
+{
+
+}
+
+void EXECUTE::irmovq()
+{
+
+}
+
+void EXECUTE::rmmovq()
+{
+
+}
+
+void EXECUTE::mrmovq()
+{
+
+}
+
+void EXECUTE::OPq_addq()
+{
+
+}
+
+void EXECUTE::OPq_subq()
+{
+
+}
+
+void EXECUTE::OPq_andq()
+{
+
+}
+
+void EXECUTE::OPq_xorq()
+{
+
+}
+
+void EXECUTE::jmp()
+{
+
+}
+
+void EXECUTE::jle()
+{
+
+}
+
+void EXECUTE::jl()
+{
+
+}
+
+void EXECUTE::je()
+{
+
+}
+
+void EXECUTE::jne()
+{
+
+}
+
+void EXECUTE::jge()
+{
+
+}
+
+void EXECUTE::jg()
+{
+
+}
+
+void EXECUTE::call()
+{
+
+}
+
+void EXECUTE::ret()
+{
+
+}
+
+void EXECUTE::pushq()
+{
+
+}
+
+void EXECUTE::popq()
+{
+
+}
