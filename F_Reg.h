@@ -5,9 +5,9 @@ class F_REGISTER
     public:
         F_REGISTER(){}
 
-        char read_predPC(){return predPC;}
-        void write_predPC(const char s){predPC=s;}
+        char* read_predPC(){return predPC.get_val();}
+        void write_predPC(const char* s){predPC.write_val(s);}
 
     private:
-        char predPC;
+        REGISTER predPC;
 };
