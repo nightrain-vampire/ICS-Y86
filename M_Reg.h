@@ -21,8 +21,8 @@ class M_REGISTER
         void write_cnd(const char s){M_cnd=s;}
         void write_dstE(const char s){M_dstE=s;}
         void write_dstM(const char s){M_dstM=s;}
-        void write_valE(const REGISTER& s){M_valE=s;}
-        void write_valA(const REGISTER& s){M_valA=s;}
+        void write_valE(REGISTER& s){M_valE=s;}
+        void write_valA(REGISTER& s){M_valA=s;}
 
     private:
         char M_stat;

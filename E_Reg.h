@@ -26,9 +26,9 @@ class E_REGISTER
         void write_dstM(const char s){E_dstM=s;}
         void write_srcA(const char s){E_srcA=s;}
         void write_srcB(const char s){E_srcB=s;}
-        void write_valC(const REGISTER& s){E_valC=s;}
-        void write_valA(const REGISTER& s){E_valA=s;}
-        void write_valB(const REGISTER& s){E_valB=s;}
+        void write_valC(REGISTER& s){E_valC=s;}
+        void write_valA(REGISTER& s){E_valA=s;}
+        void write_valB(REGISTER& s){E_valB=s;}
 
     private:
         //data member
