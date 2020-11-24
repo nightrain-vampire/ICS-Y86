@@ -1,4 +1,5 @@
-#include"common.h"
+#pragma once
+#include"R.h"
 
 class E_REGISTER
 {
@@ -13,9 +14,9 @@ class E_REGISTER
         char get_dstM(){return E_dstM;}
         char get_srcA(){return E_srcA;}
         char get_srcB(){return E_srcB;}
-        char* get_valC(){return E_valC.get_val();}
-        char* get_valA(){return E_valA.get_val();}
-        char* get_valB(){return E_valB.get_val();}
+        REGISTER get_valC(){return E_valC;}
+        REGISTER get_valA(){return E_valA;}
+        REGISTER get_valB(){return E_valB;}
 
         //写入函数
         void write_stat(const char s){E_stat=s;}
@@ -25,9 +26,9 @@ class E_REGISTER
         void write_dstM(const char s){E_dstM=s;}
         void write_srcA(const char s){E_srcA=s;}
         void write_srcB(const char s){E_srcB=s;}
-        void write_valC(const char* s){E_valC.write_val(s);}
-        void write_valA(const char* s){E_valA.write_val(s);}
-        void write_valB(const char* s){E_valB.write_val(s);}
+        void write_valC(const REGISTER& s){E_valC=s;}
+        void write_valA(const REGISTER& s){E_valA=s;}
+        void write_valB(const REGISTER& s){E_valB=s;}
 
     private:
         //data member

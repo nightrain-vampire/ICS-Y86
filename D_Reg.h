@@ -1,4 +1,5 @@
-#include"common.h"
+#pragma once
+#include"R.h"
 
 class D_REGISTER
 {
@@ -11,8 +12,8 @@ class D_REGISTER
         char get_ifun(){return D_ifun;}
         char get_rA(){return D_rA;}
         char get_rB(){return D_rB;}
-        char* get_valC(){return D_valC.get_val();}
-        char* get_valP(){return D_valP.get_val();}
+        REGISTER get_valC(){return D_valC;}
+        REGISTER get_valP(){return D_valP;}
 
         //写入函数
         void write_stat(const char s){D_stat=s;}
@@ -20,8 +21,8 @@ class D_REGISTER
         void write_ifun(const char s){D_ifun=s;}
         void write_rA(const char s){D_rA=s;}
         void write_rB(const char s){D_rB=s;}
-        void write_valC(const char* s){D_valC.write_val(s);}
-        void write_valP(const char* s){D_valP.write_val(s);}
+        void write_valC(const REGISTER& s){D_valC=s;}
+        void write_valP(const REGISTER& s){D_valP=s;}
 
     private:
         //数据成员
