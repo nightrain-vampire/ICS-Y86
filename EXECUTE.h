@@ -36,8 +36,7 @@ class EXECUTE
         void pushq();
         void popq();
     private:
-        REGISTER pc,valC,valP;
-        char stat,icode,ifun,rA,rB;
+        REGISTER ALUA,ALUB;
+        char stat,icode,dstE;
         void (EXECUTE::*func[12][7])();
-
 };

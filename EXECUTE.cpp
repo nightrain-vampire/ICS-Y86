@@ -2,9 +2,8 @@
 using namespace std;
 void EXECUTE::execute()
 {
-    icode=0xF&(imemory[pc._get_val()]>>4);
-    ifun=0xF&imemory[pc._get_val()];
-    (this->*func[icode][ifun])();
+    
+    //(this->*func[icode][ifun])();
 }
 
 void EXECUTE::Initfunc()
