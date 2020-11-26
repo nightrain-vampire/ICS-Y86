@@ -13,6 +13,13 @@ void FETCH::fetch(){
         return;
     }
     (this->*func[icode][ifun])();
+    D_reg.write_stat(stat);
+    D_reg.write_icode(icode);
+    D_reg.write_ifun(ifun);
+    D_reg.write_rA(rA);
+    D_reg.write_rB(rB);
+    D_reg.write_valC(valC);
+    D_reg.write_valP(valP);
 }
 
 void FETCH::Initfunc(){
@@ -46,7 +53,12 @@ void FETCH::Initfunc(){
 }
 
 void FETCH::SelectPC(){
-
+    if(M_reg.get_icode()==7&&!M_reg.get_cnd())
+        pc=M_reg.get_valA();
+    else if(W_reg.get_icode()==9)
+        pc=W_reg.get_valM();
+    else
+        pc=F_reg.get_val();
 }//从M_valA、W_valM、predPC中选取合适的更新pc
 
 void FETCH::halt(){

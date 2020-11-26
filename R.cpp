@@ -18,7 +18,7 @@ long long REGISTER::_get_val(){
     return val.ll;
 }
 
-REGISTER& REGISTER::operator=(REGISTER& r){
+REGISTER& REGISTER::operator=(REGISTER r){
     write_val(r.get_val());
     return *this;
 }
