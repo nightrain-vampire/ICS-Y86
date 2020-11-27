@@ -19,8 +19,8 @@ class W_REGISTER
         void write_icode(const char s){W_icode=s;}
         void write_dstE(const char s){W_dstE=s;}
         void write_dstM(const char s){W_dstM=s;}
-        void write_valE(REGISTER& s){W_valE=s;}
-        void write_valM(REGISTER& s){W_valM=s;}
+        void write_valE(REGISTER s){W_valE=s;}
+        void write_valM(REGISTER s){W_valM=s;}
 
     private:
         char W_stat;

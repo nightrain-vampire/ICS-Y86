@@ -16,7 +16,6 @@ class EXECUTE
         void cmovne();
         void cmovge();
         void cmovg();
-        void mrmove();
         void irmovq();
         void rmmovq();
         void mrmovq();
@@ -36,7 +35,8 @@ class EXECUTE
         void pushq();
         void popq();
     private:
-        REGISTER ALUA,ALUB;
-        char stat,icode,dstE;
+        REGISTER valA,valB,valC;
+        char cond,stat,icode,ifun,dstE;
+        char zf,of,sf;
         void (EXECUTE::*func[12][7])();
 };

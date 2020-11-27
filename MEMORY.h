@@ -16,7 +16,6 @@ class MEMORY
         void cmovne();
         void cmovge();
         void cmovg();
-        void mrmove();
         void irmovq();
         void rmmovq();
         void mrmovq();

@@ -21,8 +21,8 @@ class D_REGISTER
         void write_ifun(const char s){D_ifun=s;}
         void write_rA(const char s){D_rA=s;}
         void write_rB(const char s){D_rB=s;}
-        void write_valC(REGISTER& s){D_valC=s;}
-        void write_valP(REGISTER& s){D_valP=s;}
+        void write_valC(REGISTER s){D_valC=s;}
+        void write_valP(REGISTER s){D_valP=s;}
 
     private:
         //数据成员

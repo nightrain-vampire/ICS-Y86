@@ -9,4 +9,4 @@ extern D_REGISTER D_reg;
 extern E_REGISTER E_reg;
 extern M_REGISTER M_reg;
 extern W_REGISTER W_reg;
-extern char ZF,CF,SF;
+extern char ZF,OF,SF;

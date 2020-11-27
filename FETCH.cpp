@@ -159,36 +159,43 @@ void FETCH::OPq_xorq(){
 void FETCH::jmp(){
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
+    F_reg.write_val(valC);
 }
 
 void FETCH::jle(){
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
+    F_reg.write_val(valC);
 }
 
 void FETCH::jl(){
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
+    F_reg.write_val(valC);
 }
 
 void FETCH::je(){
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
+    F_reg.write_val(valC);
 }
 
 void FETCH::jne(){
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
+    F_reg.write_val(valC);
 }
 
 void FETCH::jge(){
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
+    F_reg.write_val(valC);
 }
 
 void FETCH::jg(){
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
+    F_reg.write_val(valC);
 }
 
 void FETCH::call(){

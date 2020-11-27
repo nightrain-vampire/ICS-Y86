@@ -3,7 +3,7 @@ using namespace std;
 REGISTERS registers;
 char imemory[800000];
 char dmemory[800000];
-char ZF,SF,CF;
+bool ZF,OF,CF;
 F_REGISTER F_reg;
 D_REGISTER D_reg;
 E_REGISTER E_reg;
