@@ -4,7 +4,7 @@ class MEMORY
 {
     public:
         MEMORY(){Initfunc();};
-        void Mem();//直接调用它就行
+        void memory();//直接调用它就行
         void Initfunc();//初始化函数指针数组
 
         void halt();

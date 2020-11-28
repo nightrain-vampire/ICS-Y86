@@ -56,13 +56,13 @@ void FETCH::bubble(){
 }
 
 void FETCH::SelectPC(){
-    if(M_reg.get_icode()==7&&!M_reg.get_cnd()){
+    if(M_reg.get_icode()==7&&!e_Cnd){
         pc=M_reg.get_valA();
         bubble();
         F_reg.disable();
     }
-    else if(W_reg.get_icode()==9){
-        pc=W_reg.get_valM();
+    else if(!(E_reg.get_icode()==5||E_reg.get_icode()==0xB&&(E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB))\
+    &&(D_reg.get_icode()==9||E_reg.get_icode()==9||M_reg.get_icode()==9)){
         bubble();
         F_reg.disable();
     }
@@ -70,6 +70,8 @@ void FETCH::SelectPC(){
         pc=F_reg.get_val();
         F_reg.enable();
     }
+    if(W_reg.get_icode()==9)
+        pc=W_reg.get_valM();
 }//从M_valA、W_valM、predPC中选取合适的更新pc
 
 void FETCH::write(){
@@ -87,6 +89,7 @@ void FETCH::halt(){
 }
 
 void FETCH::nop(){
+    bubble();
     valP.write_val(pc._get_val()+1);
 }
 

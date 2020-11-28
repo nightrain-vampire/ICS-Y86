@@ -15,7 +15,7 @@ common.h
 ↑
 FETCH.h、DECODE.h、EXECUTE.h、MEMORY.h、WBACK.h
 ↑
-...主执行函数
+main.cpp主执行函数
 ↑
 python文件
 

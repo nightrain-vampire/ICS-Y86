@@ -2,179 +2,199 @@
 using namespace std;
 void DECODE::decode()
 {
-    icode=0xF&(imemory[pc._get_val()]>>4);
-    ifun=0xF&imemory[pc._get_val()];
-    (this->*func[icode][ifun])();
+    if(ifbubble())
+    {
+        bubble();
+    }
+    else if (ifstall())
+    {
+        stat='2';
+    }
+    else
+    {
+        write();
+        cal_dstE();
+        cal_dstM();
+        cal_srcA();
+        cal_srcB();
+        valA=SelFwdA(srcA);
+        valB=FwdB(srcB);
+    }
+    
 }
 
-void DECODE::Initfunc()
+void DECODE::cal_dstE()
 {
-    func[0][0]=&halt;
-    func[1][0]=&nop;
-    func[2][0]=&rrmovq;
-    func[2][1]=&cmovle;
-    func[2][2]=&cmovl;
-    func[2][3]=&cmove;
-    func[2][4]=&cmovne;
-    func[2][5]=&cmovge;
-    func[2][6]=&cmovg;
-    func[2][7]=&mrmove;
-    func[3][0]=&irmovq;
-    func[4][0]=&rmmovq;
-    func[5][0]=&mrmove;
-    func[6][0]=&OPq_addq;
-    func[6][1]=&OPq_subq;
-    func[6][2]=&OPq_andq;
-    func[6][3]=&OPq_xorq;
-    func[7][0]=&jmp;
-    func[7][1]=&jle;
-    func[7][2]=&jl;
-    func[7][3]=&je;
-    func[7][4]=&jne;
-    func[7][5]=&jge;
-    func[7][6]=&jg;
-    func[8][0]=&call;
-    func[9][0]=&ret;
-    func[0xA][0]=&pushq;
-    func[0xB][0]=&popq;
+    //获取dstE
+    if(icode=='6'||icode=='2'||icode=='3')
+    {
+        dstE=rB;
+    }
+    else if(icode=='A'||icode=='B'||icode=='8'||icode=='9')
+    {
+        dstE='4';
+    }
+    else
+    {
+        dstE='F';
+    }
 }
 
-void DECODE::halt()
+void DECODE::cal_dstM()
 {
-
+    //获取dstM
+    if(icode=='5'||icode=='B')
+    {
+        dstM=rA;
+    }
+    else
+    {
+        dstM='F';
+    }
 }
 
-void DECODE::nop()
+void DECODE::cal_srcA()
 {
-
+    //获取srcA
+    if(icode=='2'||icode=='4'||icode=='6'||icode=='A')
+    {
+        srcA=rA;
+    }
+    else if (icode=='9'||icode=='B')
+    {
+        srcA='4';
+    }
+    else
+    {
+        srcA='F';
+    }
 }
 
-void DECODE::rrmovq()
+void DECODE::cal_srcB()
 {
-
+    //获取srcB
+    if(icode=='4'||icode=='5'||icode=='6')
+    {
+        srcB=rB;
+    }
+    else if (icode=='8'||icode=='9'||icode=='A'||icode=='B')
+    {
+        srcB='4';
+    }
+    else
+    {
+        srcB='F';
+    }
 }
 
-void DECODE::cmovle()
+void DECODE::write()
 {
-
+    E_reg.write_stat(D_reg.get_stat());
+    E_reg.write_icode(D_reg.get_icode());
+    E_reg.write_ifun(D_reg.get_ifun());
+    E_reg.write_valC(D_reg.get_valC());
+    E_reg.write_dstE(dstE);
+    E_reg.write_dstM(dstM);
+    E_reg.write_srcA(srcA);
+    E_reg.write_srcB(srcB);
+    E_reg.write_valA(valA);
+    E_reg.write_valB(valB);
 }
 
-void DECODE::cmovl()
+void DECODE::bubble()
 {
-
+    icode='1';
 }
 
-void DECODE::cmove()
+REGISTER DECODE::SelFwdA(char d_rval)
 {
-
+    if(icode=='8'||icode=='7')
+    {
+        return valP;
+    }
+    else if(d_rval==e_dstE)
+    {
+        return e_valE;
+    }
+    else if (d_rval==M_reg.get_dstM())
+    {
+        return m_valM;
+    }
+    else if (d_rval==M_reg.get_dstE())
+    {
+        return M_reg.get_valE();
+    }
+    else if (d_rval==W_reg.get_dstM())
+    {
+        return W_reg.get_valM();
+    }
+    else if (d_rval==W_reg.get_dstE())
+    {
+        return W_reg.get_valE();
+    }
+    else
+    {
+        if(d_rval!='F')
+        {
+            return registers.get_val(d_rval);
+        }
+        else
+        {
+            REGISTER temp;
+            return temp;
+        }
+    }
+    
 }
 
-void DECODE::cmovne()
+REGISTER DECODE::FwdB(char d_rval)
 {
-
+    if(d_rval==e_dstE)
+    {
+        return e_valE;
+    }
+    else if (d_rval==M_reg.get_dstM())
+    {
+        return m_valM;
+    }
+    else if (d_rval==M_reg.get_dstE())
+    {
+        return M_reg.get_valE();
+    }
+    else if (d_rval==W_reg.get_dstM())
+    {
+        return W_reg.get_valM();
+    }
+    else if (d_rval==W_reg.get_dstE())
+    {
+        return W_reg.get_valE();
+    }
+    else
+    {
+        if(d_rval!='F')
+        {
+            return registers.get_val(d_rval);
+        }
+        else
+        {
+            REGISTER temp;
+            return temp;
+        }
+    }
 }
 
-void DECODE::cmovge()
+bool DECODE::ifbubble()
 {
-
+    bool sig1=(E_reg.get_icode()=='7'&&(!e_Cnd));
+    bool sig2=!(E_reg.get_icode()=='5'||E_reg.get_icode()=='B');
+    bool sig3=(srcA==E_reg.get_dstM()||srcB==E_reg.get_dstM());
+    bool sig4=(D_reg.get_icode()=='9'||E_reg.get_icode()=='9'||M_reg.get_icode()=='9');
+    return sig1||sig2&&sig3&&sig4;
 }
 
-void DECODE::cmovg()
+bool DECODE::ifstall()
 {
-
-}
-
-void DECODE::mrmove()
-{
-
-}
-
-void DECODE::irmovq()
-{
-
-}
-
-void DECODE::rmmovq()
-{
-
-}
-
-void DECODE::mrmovq()
-{
-
-}
-
-void DECODE::OPq_addq()
-{
-
-}
-
-void DECODE::OPq_subq()
-{
-
-}
-
-void DECODE::OPq_andq()
-{
-
-}
-
-void DECODE::OPq_xorq()
-{
-
-}
-
-void DECODE::jmp()
-{
-
-}
-
-void DECODE::jle()
-{
-
-}
-
-void DECODE::jl()
-{
-
-}
-
-void DECODE::je()
-{
-
-}
-
-void DECODE::jne()
-{
-
-}
-
-void DECODE::jge()
-{
-
-}
-
-void DECODE::jg()
-{
-
-}
-
-void DECODE::call()
-{
-
-}
-
-void DECODE::ret()
-{
-
-}
-
-void DECODE::pushq()
-{
-
-}
-
-void DECODE::popq()
-{
-
+    bool sig1=(E_reg.get_icode()=='5'||E_reg.get_icode()=='B');
+    bool sig2=(srcA==E_reg.get_dstM()||srcB==E_reg.get_dstM());
+    return sig1&&sig2;
 }

@@ -1,6 +1,6 @@
 #include"MEMORY.h"
 using namespace std;
-void MEMORY::Mem()
+void MEMORY::memory()
 {
     icode=0xF&(imemory[pc._get_val()]>>4);
     ifun=0xF&imemory[pc._get_val()];
@@ -18,10 +18,9 @@ void MEMORY::Initfunc()
     func[2][4]=&cmovne;
     func[2][5]=&cmovge;
     func[2][6]=&cmovg;
-    func[2][7]=&mrmove;
     func[3][0]=&irmovq;
     func[4][0]=&rmmovq;
-    func[5][0]=&mrmove;
+    func[5][0]=&mrmovq;
     func[6][0]=&OPq_addq;
     func[6][1]=&OPq_subq;
     func[6][2]=&OPq_andq;
@@ -80,11 +79,6 @@ void MEMORY::cmovge()
 }
 
 void MEMORY::cmovg()
-{
-
-}
-
-void MEMORY::mrmove()
 {
 
 }

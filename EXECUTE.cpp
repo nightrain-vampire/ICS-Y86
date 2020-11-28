@@ -14,6 +14,7 @@ void EXECUTE::execute()
     (this->*func[icode][ifun])();//执行完毕后的结果放在valB中
     e_dstE=cond?dstE:0xF;
     e_valE=valB;
+    e_Cnd=cond;
 }
 
 void EXECUTE::Initfunc()
