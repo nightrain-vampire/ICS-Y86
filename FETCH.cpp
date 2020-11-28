@@ -1,7 +1,8 @@
 #include"FETCH.h"
 using namespace std;
 void FETCH::fetch(){
-    SelectPC();//pc已经是正确的pc了
+    SelectPC();//将pc置为正确的pc，并且对预测错误、ret等情况进行插入气泡的处理
+    write();//先进行一次write，把前一次的结果传给D流水线寄存器
     icode=0xF&(imemory[pc._get_val()]>>4);
     if(icode>0xB){
         stat=4;
@@ -13,13 +14,7 @@ void FETCH::fetch(){
         return;
     }
     (this->*func[icode][ifun])();
-    D_reg.write_stat(stat);
-    D_reg.write_icode(icode);
-    D_reg.write_ifun(ifun);
-    D_reg.write_rA(rA);
-    D_reg.write_rB(rB);
-    D_reg.write_valC(valC);
-    D_reg.write_valP(valP);
+    F_reg.write_val(valP);
 }
 
 void FETCH::Initfunc(){
@@ -52,14 +47,40 @@ void FETCH::Initfunc(){
     func[0xB][0]=&popq;
 }
 
+void FETCH::bubble(){
+    stat=0;
+    icode=1;
+    ifun=0;
+    rA=15;
+    rB=15;
+}
+
 void FETCH::SelectPC(){
-    if(M_reg.get_icode()==7&&!M_reg.get_cnd())
+    if(M_reg.get_icode()==7&&!M_reg.get_cnd()){
         pc=M_reg.get_valA();
-    else if(W_reg.get_icode()==9)
+        bubble();
+        F_reg.disable();
+    }
+    else if(W_reg.get_icode()==9){
         pc=W_reg.get_valM();
-    else
+        bubble();
+        F_reg.disable();
+    }
+    else{
         pc=F_reg.get_val();
+        F_reg.enable();
+    }
 }//从M_valA、W_valM、predPC中选取合适的更新pc
+
+void FETCH::write(){
+    D_reg.write_stat(stat);
+    D_reg.write_icode(icode);
+    D_reg.write_ifun(ifun);
+    D_reg.write_rA(rA);
+    D_reg.write_rB(rB);
+    D_reg.write_valC(valC);
+    D_reg.write_valP(valP);
+}//对D流水线寄存器写值
 
 void FETCH::halt(){
     stat=2;

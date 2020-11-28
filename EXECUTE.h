@@ -6,7 +6,9 @@ class EXECUTE
         EXECUTE(){Initfunc();};
         void execute();//直接调用它就行
         void Initfunc();//初始化函数指针数组
-
+        void bubble();
+        void write();
+        void read();
         void halt();
         void nop();
         void rrmovq();
@@ -36,7 +38,7 @@ class EXECUTE
         void popq();
     private:
         REGISTER valA,valB,valC;
-        char cond,stat,icode,ifun,dstE;
-        char zf,of,sf;
+        char cond,stat,icode,ifun,dstE,dstM;
+        char zf,of,sf,setcc;
         void (EXECUTE::*func[12][7])();
 };

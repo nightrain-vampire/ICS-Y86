@@ -2,19 +2,18 @@
 using namespace std;
 void EXECUTE::execute()
 {
-    //未异常处理！
-    valA=E_reg.get_valA();
-    valB=E_reg.get_valB();
-    valC=E_reg.get_valC();
+    if(m_stat==3||W_reg.get_stat()==3){
+        bubble();
+        setcc=0;
+    }
+    else{
+        setcc=1;
+    }//不知道这样的顺序对不对
+    write();
+    read();
     (this->*func[icode][ifun])();//执行完毕后的结果放在valB中
-
-    M_reg.write_stat(stat);
-    M_reg.write_icode(icode);
-    M_reg.write_cnd(cond);
-    //M_reg.write_dstE(dstE);
-    //M_reg.write_dstM(dstM);
-    M_reg.write_valE(valB);
-    M_reg.write_valA(valA);
+    e_dstE=cond?dstE:0xF;
+    e_valE=valB;
 }
 
 void EXECUTE::Initfunc()
@@ -47,6 +46,36 @@ void EXECUTE::Initfunc()
     func[0xB][0]=&popq;
 }
 
+void EXECUTE::bubble(){
+    stat=0;
+    icode=1;
+    ifun=0;
+    dstE=dstM=0xF;
+}
+
+void EXECUTE::write(){
+    if(setcc){
+        ZF=zf;
+        OF=of;
+        SF=sf;
+    }
+    M_reg.write_stat(stat);
+    M_reg.write_icode(icode);
+    M_reg.write_cnd(cond);
+    M_reg.write_dstE(e_dstE);
+    M_reg.write_dstM(dstM);
+    M_reg.write_valE(valB);
+    M_reg.write_valA(valA);
+}
+
+void EXECUTE::read(){
+    dstE=E_reg.get_dstE();
+    dstM=E_reg.get_dstM();
+    valA=E_reg.get_valA();
+    valB=E_reg.get_valB();
+    valC=E_reg.get_valC();
+}
+
 void EXECUTE::halt()
 {
 
@@ -60,36 +89,43 @@ void EXECUTE::nop()
 void EXECUTE::rrmovq()
 {
     valB=valA;
+    cond=1;
 }
 
 void EXECUTE::cmovle()
 {
     valB=valA;
+    cond=(SF^OF)|ZF;
 }
 
 void EXECUTE::cmovl()
 {
     valB=valA;
+    cond=SF|OF;
 }
 
 void EXECUTE::cmove()
 {
     valB=valA;
+    cond=ZF;
 }
 
 void EXECUTE::cmovne()
 {
     valB=valA;
+    cond=!ZF;
 }
 
 void EXECUTE::cmovge()
 {
     valB=valA;
+    cond=!(SF^OF);
 }
 
 void EXECUTE::cmovg()
 {
     valB=valA;
+    cond=(!(SF^OF))&(!ZF);
 }
 
 void EXECUTE::irmovq()

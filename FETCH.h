@@ -4,8 +4,10 @@ class FETCH{
     public:
         FETCH(){Initfunc();};
         void fetch();//直接调用它就行
-        void Initfunc();//初始化函数指针数组
         void SelectPC();//从M_valA、W_valM、predPC中选取合适的更新pc
+        void bubble();
+        void write();
+        void Initfunc();//初始化函数指针数组
         void halt();
         void nop();
         void rrmovq();
