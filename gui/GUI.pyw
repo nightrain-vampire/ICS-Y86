@@ -4,15 +4,29 @@ import pygame
 import sys
 import os
 import tkinter
+import tkinter.filedialog
 from pygame._sdl2.video import Window
 from COLOR import *
-
+from READ import *
 def app_path():
     if hasattr(sys, 'frozen'):
         return os.path.dirname(sys.executable)
     return os.path.dirname(__file__)
 
-SCREEN_SIZE=[tkinter.Tk().winfo_screenwidth(),tkinter.Tk().winfo_screenheight()]
+def init_ins():
+    out=''
+    f=tkinter.filedialog.askopenfile()
+    for line in f:
+        out+=line[7:28].strip()
+    f.close()
+    return out
+
+tk=tkinter.Tk()
+tk.withdraw()
+
+pDLL.init_imemory(init_ins().encode())#初始化
+
+SCREEN_SIZE=[tk.winfo_screenwidth(),tk.winfo_screenheight()]
 PATH=app_path()+'\\'#冻结路径
 pygame.init()
 
@@ -37,39 +51,56 @@ FONT_COLOR=BLACK#颜色
 
 general_size=FONT.size('%rax')#general_size存的是所有单元的大小
 
-#以下是一些需要绘制的surface对象列表的以及初始化
-REGISTER_NAMES=['%rax','%rcx','%rdx','%rbx','%rsp','%rbp','%rsi','%rdi','%r8','%r9','%r10','%r11','%r12','%r13','%r14']
-REGISTER_VALS=['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0']
-REGISTER_FONTS=[]
-for i in range(0,15):
-    temp_name_size=FONT.size(REGISTER_NAMES[i])
-    temp_val_size=FONT.size(REGISTER_VALS[i])
-    REGISTER_FONTS.append([FONT.render(REGISTER_NAMES[i],True,FONT_COLOR),(0,2*i*temp_name_size[1]),FONT.render(REGISTER_VALS[i],True,FONT_COLOR),(0,(2*i+1)*temp_name_size[1])])
-    #warning:现在是append()，如果要动态更改数值，需要先清除
+NEXT_NAME="NEXT"
+NEXT_size=FONT.size(NEXT_NAME)
 
-CC_NAMES=['%CF','%ZF','%SF']
-CC_VALS=['0','0','0']
-CC_FONTS=[]
-for i in range(0,3):
-    temp_name_size=FONT.size(CC_NAMES[i])
-    temp_val_size=FONT.size(CC_VALS[i])
-    CC_FONTS.append([FONT.render(CC_NAMES[i],True,FONT_COLOR),((2*i+2)*general_size[0],0),FONT.render(CC_VALS[i],True,FONT_COLOR),((2*i+2)*general_size[0]+0.5*(temp_name_size[0]-temp_val_size[0]),general_size[1])])
-    #warning:同上
-
-while True:
-    screen.blit(BG,(0,0))
-    screen.blit(mask,(0,0))
-    for each in REGISTER_FONTS:
-        screen.blit(each[0],each[1])
-        screen.blit(each[2],each[3])
+def refresh():
+    CC_NAMES=['%ZF','%SF','%OF']
+    CC_VALS=refresh_cc()
+    CC_FONTS=[]
+    for i in range(0,3):
+        temp_name_size=FONT.size(CC_NAMES[i])
+        temp_val_size=FONT.size(CC_VALS[i])
+        CC_FONTS.append([FONT.render(CC_NAMES[i],True,FONT_COLOR),((2*i+2)*general_size[0],0),FONT.render(CC_VALS[i],True,FONT_COLOR),((2*i+2)*general_size[0]+0.5*(temp_name_size[0]-temp_val_size[0]),general_size[1])])
+        #warning:同上
     for each in CC_FONTS:
         screen.blit(each[0],each[1])
         screen.blit(each[2],each[3])
+
+    REGISTER_NAMES=['%rax','%rcx','%rdx','%rbx','%rsp','%rbp','%rsi','%rdi','%r8','%r9','%r10','%r11','%r12','%r13','%r14']
+    REGISTER_VALS=refresh_reg()
+    REGISTER_FONTS=[]
+    for i in range(0,15):
+        temp_name_size=FONT.size(REGISTER_NAMES[i])
+        temp_val_size=FONT.size(REGISTER_VALS[i])
+        REGISTER_FONTS.append([FONT.render(REGISTER_NAMES[i],True,FONT_COLOR),(0,2*i*temp_name_size[1]),FONT.render(REGISTER_VALS[i],True,FONT_COLOR),(0,(2*i+1)*temp_name_size[1])])
+    for each in REGISTER_FONTS:
+        screen.blit(each[0],each[1])
+        screen.blit(each[2],each[3])
+
+    
+flag=1
+while True:
+    screen.blit(BG,(0,0))
+    screen.blit(mask,(0,0))
+    screen.blit(FONT.render(NEXT_NAME,True,FONT_COLOR),(fbs[0]-NEXT_size[0],fbs[1]-NEXT_size[1]))
+    refresh()
+    if flag:
+        pDLL.CCH_QH()
+        flag=0
     pygame.display.flip()
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             pygame.quit()
             sys.exit()
-    pygame.time.delay(30)
+        if event.type==pygame.MOUSEBUTTONDOWN:
+            if(event.pos[0]>fbs[0]-NEXT_size[0] and event.pos[1]>fbs[1]-NEXT_size[1]):
+                flag=1
+            if(event.button==5):
+                flag=1
+        if event.type==pygame.KEYDOWN:
+            if(event.key==pygame.K_RIGHT or event.key==pygame.K_DOWN):
+                flag=1
 
+    pygame.time.delay(30)
 

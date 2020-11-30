@@ -8,7 +8,7 @@ void DECODE::decode()
     }
     else if (ifstall())
     {
-        stat='2';
+        stat=2;
     }
     else
     {
@@ -26,64 +26,64 @@ void DECODE::decode()
 void DECODE::cal_dstE()
 {
     //获取dstE
-    if(icode=='6'||icode=='2'||icode=='3')
+    if(icode==6||icode==2||icode==3)
     {
         dstE=rB;
     }
-    else if(icode=='A'||icode=='B'||icode=='8'||icode=='9')
+    else if(icode==0xA||icode==0xB||icode==8||icode==9)
     {
-        dstE='4';
+        dstE=4;
     }
     else
     {
-        dstE='F';
+        dstE=0xF;
     }
 }
 
 void DECODE::cal_dstM()
 {
     //获取dstM
-    if(icode=='5'||icode=='B')
+    if(icode==5||icode==0xB)
     {
         dstM=rA;
     }
     else
     {
-        dstM='F';
+        dstM=0xF;
     }
 }
 
 void DECODE::cal_srcA()
 {
     //获取srcA
-    if(icode=='2'||icode=='4'||icode=='6'||icode=='A')
+    if(icode==2||icode==4||icode==6||icode==0xA)
     {
         srcA=rA;
     }
-    else if (icode=='9'||icode=='B')
+    else if (icode==9||icode==0xB)
     {
-        srcA='4';
+        srcA=4;
     }
     else
     {
-        srcA='F';
+        srcA=0xF;
     }
 }
 
 void DECODE::cal_srcB()
 {
     //获取srcB
-    if(icode=='4'||icode=='5'||icode=='6')
+    if(icode==4||icode==5||icode==6)
     {
         srcB=rB;
     }
-    else if (icode=='8'||icode=='9'||icode=='A'||icode=='B')
+    else if (icode==8||icode==9||icode==0xA||icode==0xB)
     {
-        srcB='4';
+        srcB=4;
     }
     else
     {
-        srcB='F';
+        srcB=0xF;
     }
 }
 
@@ -103,12 +103,12 @@ void DECODE::write()
 
 void DECODE::bubble()
 {
-    icode='1';
+    icode=1;
 }
 
 REGISTER DECODE::SelFwdA(char d_rval)
 {
-    if(icode=='8'||icode=='7')
+    if(icode==8||icode==7)
     {
         return valP;
     }
@@ -134,7 +134,7 @@ REGISTER DECODE::SelFwdA(char d_rval)
     }
     else
     {
-        if(d_rval!='F')
+        if(d_rval!=0xF)
         {
             return registers.get_val(d_rval);
         }
@@ -171,7 +171,7 @@ REGISTER DECODE::FwdB(char d_rval)
     }
     else
     {
-        if(d_rval!='F')
+        if(d_rval!=0xF)
         {
             return registers.get_val(d_rval);
         }
@@ -185,16 +185,16 @@ REGISTER DECODE::FwdB(char d_rval)
 
 bool DECODE::ifbubble()
 {
-    bool sig1=(E_reg.get_icode()=='7'&&(!e_Cnd));
-    bool sig2=!(E_reg.get_icode()=='5'||E_reg.get_icode()=='B');
+    bool sig1=(E_reg.get_icode()==7&&(!e_Cnd));
+    bool sig2=!(E_reg.get_icode()==5||E_reg.get_icode()==0xB);
     bool sig3=(srcA==E_reg.get_dstM()||srcB==E_reg.get_dstM());
-    bool sig4=(D_reg.get_icode()=='9'||E_reg.get_icode()=='9'||M_reg.get_icode()=='9');
+    bool sig4=(D_reg.get_icode()==9||E_reg.get_icode()==9||M_reg.get_icode()==9);
     return sig1||sig2&&sig3&&sig4;
 }
 
 bool DECODE::ifstall()
 {
-    bool sig1=(E_reg.get_icode()=='5'||E_reg.get_icode()=='B');
+    bool sig1=(E_reg.get_icode()==5||E_reg.get_icode()==0xB);
     bool sig2=(srcA==E_reg.get_dstM()||srcB==E_reg.get_dstM());
     return sig1&&sig2;
 }
