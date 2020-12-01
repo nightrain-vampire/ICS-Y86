@@ -9,5 +9,5 @@ extern D_REGISTER D_reg;
 extern E_REGISTER E_reg;
 extern M_REGISTER M_reg;
 extern W_REGISTER W_reg;
-extern char ZF,OF,SF,e_dstE,m_stat,e_Cnd,d_srcA,d_srcB;
+extern char ZF,OF,SF,e_dstE,m_stat,e_Cnd,d_srcA,d_srcB,STAT;
 extern REGISTER e_valE,m_valM;

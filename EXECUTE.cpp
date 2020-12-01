@@ -63,13 +63,16 @@ void EXECUTE::write(){
     M_reg.write_stat(stat);
     M_reg.write_icode(icode);
     M_reg.write_cnd(cond);
-    M_reg.write_dstE(e_dstE);
+    M_reg.write_dstE(dstE);
     M_reg.write_dstM(dstM);
     M_reg.write_valE(valB);
     M_reg.write_valA(valA);
 }
 
 void EXECUTE::read(){
+    stat=E_reg.get_stat();
+    icode=E_reg.get_icode();
+    ifun=E_reg.get_ifun();
     dstE=E_reg.get_dstE();
     dstM=E_reg.get_dstM();
     valA=E_reg.get_valA();
@@ -132,6 +135,7 @@ void EXECUTE::cmovg()
 void EXECUTE::irmovq()
 {
     valB=valC;
+    printf("now called irmovq! valB=%d valC=%d\n",valB._get_val(),valC._get_val());
 }
 
 void EXECUTE::rmmovq()

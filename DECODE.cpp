@@ -6,17 +6,23 @@ void DECODE::decode()
     {
         bubble();
     }
+    write();
+    read();
+    if(icode==1){
+        bubble();
+    }
     else if (ifstall())
     {
         stat=2;
     }
-    write();
-    cal_dstE();
-    cal_dstM();
-    cal_srcA();
-    cal_srcB();
-    valA=SelFwdA(srcA);
-    valB=FwdB(srcB);
+    else{
+        cal_dstE();
+        cal_dstM();
+        cal_srcA();
+        cal_srcB();
+        valA=SelFwdA(srcA);
+        valB=FwdB(srcB);
+    }
 }
 
 void DECODE::cal_dstE()
@@ -85,10 +91,10 @@ void DECODE::cal_srcB()
 
 void DECODE::write()
 {
-    E_reg.write_stat(D_reg.get_stat());
-    E_reg.write_icode(D_reg.get_icode());
-    E_reg.write_ifun(D_reg.get_ifun());
-    E_reg.write_valC(D_reg.get_valC());
+    E_reg.write_stat(stat);
+    E_reg.write_icode(icode);
+    E_reg.write_ifun(ifun);
+    E_reg.write_valC(valC);
     E_reg.write_dstE(dstE);
     E_reg.write_dstM(dstM);
     E_reg.write_srcA(srcA);
@@ -97,9 +103,24 @@ void DECODE::write()
     E_reg.write_valB(valB);
 }
 
+void DECODE::read()
+{
+    stat=D_reg.get_stat();
+    icode=D_reg.get_icode();
+    ifun=D_reg.get_ifun();
+    rA=D_reg.get_rA();
+    rB=D_reg.get_rB();
+    valC=D_reg.get_valC();
+    valP=D_reg.get_valP();
+}
+
 void DECODE::bubble()
 {
     icode=1;
+    ifun=0;
+    rA=0xF,rB=0xF;
+    REGISTER none;
+    valC=none,valP=none;
 }
 
 REGISTER DECODE::SelFwdA(char d_rval)

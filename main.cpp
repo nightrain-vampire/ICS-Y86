@@ -7,17 +7,11 @@ MEMORY Memory;
 WBACK Wback;
 
 extern "C" void CCH_QH(){
-    printf("you have called me!\n");
     Fetch.fetch();
-    printf("fetch runs well!\n");
     Decode.decode();
-    printf("decode runs well!\n");
     Execute.execute();
-    printf("execute runs well!\n");
     Memory.memory();
-    printf("memory runs well!\n");
     Wback.wback();
-    printf("writeback runs well!\n");
 }
 
 extern "C" void init_imemory(char* s){
@@ -30,7 +24,7 @@ extern "C" void init_imemory(char* s){
             imemory[i/2]&=(temp|0xf0);
         }
         else{//偶数，放在char的左边
-            imemory[i/2]=0xFF&(temp<<4);
+            imemory[i/2]=(0xFF&(temp<<4))|0x0f;
         }
     }
 }//初始化指令数组
@@ -59,6 +53,9 @@ extern "C" int get_OF(){return int(OF);}
 
 //读取运行内存
 extern "C" int get_dmemory(int index){return dmemory[index];}
+
+//读取
+extern "C" int get_STAT(){return STAT;}
 
 //读取各个流水线寄存器的值
 //F_reg
@@ -101,4 +98,3 @@ extern "C" int W_reg_dstE(){return W_reg.get_dstE();}
 extern "C" int W_reg_dstM(){return W_reg.get_dstM();}
 extern "C" long long W_reg_valE(){return W_reg.get_valE()._get_val();}
 extern "C" long long W_reg_valM(){return W_reg.get_valM()._get_val();}
-

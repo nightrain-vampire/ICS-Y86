@@ -13,7 +13,7 @@ class MEMORY
         void getAddr();
 
         void write();
-        void getGlobal();
+        void read();
         void read_memory();
         void write_memory();
         

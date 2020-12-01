@@ -1,5 +1,4 @@
 #需要展示的有：15个寄存器的值、3个cc的值、pc的值，stat的值、内存的状况
-
 import pygame
 import sys
 import os
@@ -16,7 +15,7 @@ def app_path():
 def init_ins():
     out=''
     #f=tkinter.filedialog.askopenfile()
-    f=open("../testexample/prog1.yo","r")
+    f=open("../testexample/prog2.yo","r")
     for line in f:
         out+=line[7:28].strip()
     f.close()
@@ -74,6 +73,8 @@ REG_GRID={'stat':REG_POS[0]+2*general_size[0],\
     'srcA':REG_POS[0]+21*general_size[0],\
     'srcB':REG_POS[0]+23*general_size[0],\
     'predPC':REG_POS[0]+2*general_size[0]}
+
+STAT=1
 
 def refresh():
     CC_NAMES=['%ZF','%SF','%OF']
@@ -149,7 +150,8 @@ def refresh():
     for each in W_reg_FONTS:
         screen.blit(each[0],each[1])
 
-flag=1
+flag=0
+run=1
 while True:
     screen.blit(BG,(0,0))
     screen.blit(mask,(0,0))
@@ -161,6 +163,10 @@ while True:
     screen.blit(FONT.render("M_reg:",True,FONT_COLOR),(REG_POS[0],REG_POS[1]-6*general_size[1]))
     screen.blit(FONT.render("W_reg:",True,FONT_COLOR),(REG_POS[0],REG_POS[1]-8*general_size[1]))
     refresh()
+    STAT=refresh_STAT()
+    if STAT==2:
+        run=0
+        screen.blit(FONT.render("HALT!",True,FONT_COLOR),(fbs[0]*0.6,fbs[1]*0.3))
     if flag:
         pDLL.CCH_QH()
         flag=0
@@ -171,12 +177,12 @@ while True:
             sys.exit()
         if event.type==pygame.MOUSEBUTTONDOWN:
             if(event.pos[0]>fbs[0]-NEXT_size[0] and event.pos[1]>fbs[1]-NEXT_size[1]):
-                flag=1
+                flag=1 and run
             if(event.button==5):
-                flag=1
+                flag=1 and run
         if event.type==pygame.KEYDOWN:
             if(event.key==pygame.K_RIGHT or event.key==pygame.K_DOWN):
-                flag=1
+                flag=1 and run
 
     pygame.time.delay(30)
 

@@ -34,6 +34,9 @@ def refresh_dmemory():
             temp=""
     return ret
 
+def refresh_STAT():
+    return pDLL.get_STAT()
+
 def refresh_F_reg():
     return [str(pDLL.F_reg_predPC())]
 
