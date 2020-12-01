@@ -3,40 +3,23 @@ using namespace std;
 class MEMORY
 {
     public:
-        MEMORY(){Initfunc();};
+        MEMORY(){};
         void memory();//直接调用它就行
-        void Initfunc();//初始化函数指针数组
+        void bubble();
 
-        void halt();
-        void nop();
-        void rrmovq();
-        void cmovle();
-        void cmovl();
-        void cmove();
-        void cmovne();
-        void cmovge();
-        void cmovg();
-        void irmovq();
-        void rmmovq();
-        void mrmovq();
-        void OPq_addq();
-        void OPq_subq();
-        void OPq_andq();
-        void OPq_xorq();
-        void jmp();
-        void jle();
-        void jl();
-        void je();
-        void jne();
-        void jge();
-        void jg();
-        void call();
-        void ret();
-        void pushq();
-        void popq();
+        bool ifbubble();
+
+        void renewstat();
+        void getAddr();
+
+        void write();
+        void getGlobal();
+        void read_memory();
+        void write_memory();
+        
     private:
-        REGISTER pc,valC,valP;
-        char stat,icode,ifun,rA,rB;
-        void (MEMORY::*func[12][7])();
-
+        REGISTER valE,valA,valM;
+        char stat,icode,Cnd,dstE,dstM;
+        //void (MEMORY::*func[12][7])();
+        REGISTER Addr;
 };

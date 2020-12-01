@@ -15,7 +15,8 @@ def app_path():
 
 def init_ins():
     out=''
-    f=tkinter.filedialog.askopenfile()
+    #f=tkinter.filedialog.askopenfile()
+    f=open("../testexample/prog1.yo","r")
     for line in f:
         out+=line[7:28].strip()
     f.close()
@@ -25,7 +26,6 @@ tk=tkinter.Tk()
 tk.withdraw()
 
 pDLL.init_imemory(init_ins().encode())#初始化
-
 SCREEN_SIZE=[tk.winfo_screenwidth(),tk.winfo_screenheight()]
 PATH=app_path()+'\\'#冻结路径
 pygame.init()
@@ -53,6 +53,27 @@ general_size=FONT.size('%rax')#general_size存的是所有单元的大小
 
 NEXT_NAME="NEXT"
 NEXT_size=FONT.size(NEXT_NAME)
+DMEMORY_NAME="MEMORY:"
+DMEMORY_POS=(2*general_size[0],0.1*fbs[1])
+
+REG_POS=(2*general_size[0],0.8*fbs[1])
+REG_GRID={'stat':REG_POS[0]+2*general_size[0],\
+    'icode':REG_POS[0]+4*general_size[0],\
+    'ifun':REG_POS[0]+6*general_size[0],\
+    'cnd':REG_POS[0]+6*general_size[0],\
+    'rA':REG_POS[0]+11*general_size[0],\
+    'rB':REG_POS[0]+12.5*general_size[0],\
+    'valC':REG_POS[0]+8*general_size[0],\
+    'valE':REG_POS[0]+8*general_size[0],\
+    'valA':REG_POS[0]+11*general_size[0],\
+    'valM':REG_POS[0]+11*general_size[0],\
+    'valB':REG_POS[0]+14*general_size[0],\
+    'valP':REG_POS[0]+14*general_size[0],\
+    'dstE':REG_POS[0]+17*general_size[0],\
+    'dstM':REG_POS[0]+19*general_size[0],\
+    'srcA':REG_POS[0]+21*general_size[0],\
+    'srcB':REG_POS[0]+23*general_size[0],\
+    'predPC':REG_POS[0]+2*general_size[0]}
 
 def refresh():
     CC_NAMES=['%ZF','%SF','%OF']
@@ -78,12 +99,67 @@ def refresh():
         screen.blit(each[0],each[1])
         screen.blit(each[2],each[3])
 
+    DMEMORY_VALS=refresh_dmemory()
+    DMEMORY_FONTS=[]
+    temp_len=len(DMEMORY_VALS)
+    for i in range(0,temp_len):
+        DMEMORY_FONTS.append([FONT.render(DMEMORY_VALS[i],True,FONT_COLOR),(DMEMORY_POS[0],DMEMORY_POS[1]+(i+1)*general_size[1])])
+    for each in DMEMORY_FONTS:
+        screen.blit(each[0],each[1])
     
+    F_reg_name=['predPC']
+    F_reg_val=refresh_F_reg()
+    F_reg_FONTS=[[FONT.render(F_reg_name[0]+':'+F_reg_val[0],True,FONT_COLOR),(REG_GRID[F_reg_name[0]],REG_POS[1])]]
+    for each in F_reg_FONTS:
+        screen.blit(each[0],each[1])
+
+    D_reg_name=['stat','icode','ifun','rA','rB','valC','valP']
+    D_reg_val=refresh_D_reg()
+    D_reg_FONTS=[]
+    temp_len=len(D_reg_name)
+    for i in range(0,temp_len):
+        D_reg_FONTS.append([FONT.render(D_reg_name[i]+':'+D_reg_val[i],True,FONT_COLOR),(REG_GRID[D_reg_name[i]],REG_POS[1]-2*general_size[1])])
+    for each in D_reg_FONTS:
+        screen.blit(each[0],each[1])
+
+    E_reg_name=['stat','icode','ifun','dstE','dstM','srcA','srcB','valC','valA','valB']
+    E_reg_val=refresh_E_reg()
+    E_reg_FONTS=[]
+    temp_len=len(E_reg_name)
+    for i in range(0,temp_len):
+        E_reg_FONTS.append([FONT.render(E_reg_name[i]+':'+E_reg_val[i],True,FONT_COLOR),(REG_GRID[E_reg_name[i]],REG_POS[1]-4*general_size[1])])
+    for each in E_reg_FONTS:
+        screen.blit(each[0],each[1])
+
+    M_reg_name=['stat','icode','cnd','dstE','dstM','valE','valA']
+    M_reg_val=refresh_M_reg()
+    M_reg_FONTS=[]
+    temp_len=len(M_reg_name)
+    for i in range(0,temp_len):
+        M_reg_FONTS.append([FONT.render(M_reg_name[i]+':'+M_reg_val[i],True,FONT_COLOR),(REG_GRID[M_reg_name[i]],REG_POS[1]-6*general_size[1])])
+    for each in M_reg_FONTS:
+        screen.blit(each[0],each[1])
+
+    W_reg_name=['stat','icode','dstE','dstM','valE','valM']
+    W_reg_val=refresh_W_reg()
+    W_reg_FONTS=[]
+    temp_len=len(W_reg_name)
+    for i in range(0,temp_len):
+        W_reg_FONTS.append([FONT.render(W_reg_name[i]+':'+W_reg_val[i],True,FONT_COLOR),(REG_GRID[W_reg_name[i]],REG_POS[1]-8*general_size[1])])
+    for each in W_reg_FONTS:
+        screen.blit(each[0],each[1])
+
 flag=1
 while True:
     screen.blit(BG,(0,0))
     screen.blit(mask,(0,0))
     screen.blit(FONT.render(NEXT_NAME,True,FONT_COLOR),(fbs[0]-NEXT_size[0],fbs[1]-NEXT_size[1]))
+    screen.blit(FONT.render(DMEMORY_NAME,True,FONT_COLOR),DMEMORY_POS)
+    screen.blit(FONT.render("F_reg:",True,FONT_COLOR),REG_POS)
+    screen.blit(FONT.render("D_reg:",True,FONT_COLOR),(REG_POS[0],REG_POS[1]-2*general_size[1]))
+    screen.blit(FONT.render("E_reg:",True,FONT_COLOR),(REG_POS[0],REG_POS[1]-4*general_size[1]))
+    screen.blit(FONT.render("M_reg:",True,FONT_COLOR),(REG_POS[0],REG_POS[1]-6*general_size[1]))
+    screen.blit(FONT.render("W_reg:",True,FONT_COLOR),(REG_POS[0],REG_POS[1]-8*general_size[1]))
     refresh()
     if flag:
         pDLL.CCH_QH()

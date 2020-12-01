@@ -4,16 +4,18 @@ void FETCH::fetch(){
     SelectPC();//将pc置为正确的pc，并且对预测错误、ret等情况进行插入气泡的处理
     write();//先进行一次write，把前一次的结果传给D流水线寄存器
     icode=0xF&(imemory[pc._get_val()]>>4);
+    Initfunc();
     if(icode>0xB){
         stat=4;
         return;
     }
     ifun=0xF&imemory[pc._get_val()];
-    if(ifun>6||func[icode][ifun]==nullptr){
+    if(ifun>6||!(func[icode][ifun])){
         stat=4;
         return;
     }
     (this->*func[icode][ifun])();
+    printf("i'am here!%d\n",valP._get_val());
     F_reg.write_val(valP);
 }
 
@@ -60,12 +62,12 @@ void FETCH::SelectPC(){
         pc=M_reg.get_valA();
         bubble();
         F_reg.disable();
-    }
+    }//遇到ret，插入bubble，且将F__reg置为不可修改
     else if(!(E_reg.get_icode()==5||E_reg.get_icode()==0xB&&(E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB))\
     &&(D_reg.get_icode()==9||E_reg.get_icode()==9||M_reg.get_icode()==9)){
         bubble();
         F_reg.disable();
-    }
+    }//遇到
     else{
         pc=F_reg.get_val();
         F_reg.enable();

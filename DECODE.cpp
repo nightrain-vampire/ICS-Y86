@@ -10,17 +10,13 @@ void DECODE::decode()
     {
         stat=2;
     }
-    else
-    {
-        write();
-        cal_dstE();
-        cal_dstM();
-        cal_srcA();
-        cal_srcB();
-        valA=SelFwdA(srcA);
-        valB=FwdB(srcB);
-    }
-    
+    write();
+    cal_dstE();
+    cal_dstM();
+    cal_srcA();
+    cal_srcB();
+    valA=SelFwdA(srcA);
+    valB=FwdB(srcB);
 }
 
 void DECODE::cal_dstE()

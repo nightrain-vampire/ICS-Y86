@@ -5,7 +5,7 @@ void EXECUTE::execute()
     if(m_stat==3||W_reg.get_stat()==3){
         bubble();
         setcc=0;
-    }
+    }//可能不需要？
     else{
         setcc=1;
     }//不知道这样的顺序对不对
