@@ -25,7 +25,7 @@ class M_REGISTER
         void write_valA(REGISTER s){M_valA=s;}
 
     private:
-        char M_stat;
+        char M_stat=1;
         char M_icode;
         char M_cnd;
         REGISTER M_valE,M_valA;

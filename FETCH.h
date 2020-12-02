@@ -8,6 +8,7 @@ class FETCH{
         void bubble();
         void write();
         void Initfunc();//初始化函数指针数组
+        void invalid();
         void halt();
         void nop();
         void rrmovq();
@@ -37,6 +38,6 @@ class FETCH{
         void popq();
     private:
         REGISTER pc,valC,valP;
-        char stat,icode,ifun,rA,rB;
+        char stat=1,icode,ifun,rA,rB;
         void (FETCH::*func[12][7])();
 };

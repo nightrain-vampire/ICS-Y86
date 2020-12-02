@@ -15,9 +15,17 @@ def app_path():
 def init_ins():
     out=''
     #f=tkinter.filedialog.askopenfile()
-    f=open("../testexample/prog2.yo","r")
+    f=open("../testexample/prog10.yo","r")
+    lastlen=0
+    lastadd=0
+    add=0
     for line in f:
+        if line[0:5].strip()!='':
+            add=int(line[0:5],16)
+        out+=(add-lastadd-lastlen//2)*'00'#将空着的用"0"补全
         out+=line[7:28].strip()
+        lastadd=add
+        lastlen=len(line[7:28].strip())
     f.close()
     return out
 
@@ -164,7 +172,7 @@ while True:
     screen.blit(FONT.render("W_reg:",True,FONT_COLOR),(REG_POS[0],REG_POS[1]-8*general_size[1]))
     refresh()
     STAT=refresh_STAT()
-    if STAT==2:
+    if STAT!=1:
         run=0
         screen.blit(FONT.render("HALT!",True,FONT_COLOR),(fbs[0]*0.6,fbs[1]*0.3))
     if flag:

@@ -38,7 +38,7 @@ class EXECUTE
         void popq();
     private:
         REGISTER valA,valB,valC;
-        char cond,stat,icode,ifun,dstE,dstM;
+        char cond=1,stat=1,icode,ifun,dstE,dstM;
         char zf,of,sf,setcc;
         void (EXECUTE::*func[12][7])();
 };

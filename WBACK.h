@@ -12,6 +12,6 @@ class WBACK
         bool ifstall();
         
     private:
-        char stat,icode,dstE,dstM;
+        char stat=1,icode,dstE,dstM;
         REGISTER valE,valM;
 };

@@ -1,8 +1,7 @@
 #include"FETCH.h"
 using namespace std;
 void FETCH::fetch(){
-    SelectPC();//将pc置为正确的pc，并且对预测错误、ret等情况进行插入气泡的处理
-    write();//先进行一次write，把前一次的结果传给D流水线寄存器
+    // write();//先进行一次write，把前一次的结果传给D流水线寄存器
     icode=0xF&(imemory[pc._get_val()]>>4);
     if(icode>0xB){
         stat=4;
@@ -15,10 +14,14 @@ void FETCH::fetch(){
     }
     stat=1;
     (this->*func[icode][ifun])();
-    F_reg.write_val(valP);
 }
 
 void FETCH::Initfunc(){
+    for(int i=0;i<12;i++){
+        for(int j=0;j<7;j++){
+            func[i][j]=&invalid;
+        }
+    }
     func[0][0]=&halt;
     func[1][0]=&nop;
     func[2][0]=&rrmovq;
@@ -60,22 +63,28 @@ void FETCH::SelectPC(){
     if(M_reg.get_icode()==7&&!e_Cnd){
         pc=M_reg.get_valA();
         bubble();
+        F_reg.write_val(pc);
         F_reg.disable();
-    }//遇到ret，插入bubble，且将F__reg置为不可修改
+    }//遇到jxx错误，插入bubble，且将F__reg置为不可修改
     else if(!(E_reg.get_icode()==5||E_reg.get_icode()==0xB&&(E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB))\
     &&(D_reg.get_icode()==9||E_reg.get_icode()==9||M_reg.get_icode()==9)){
         bubble();
         F_reg.disable();
-    }//遇到
+    }
+    else if(E_reg.get_icode()==5||E_reg.get_icode()==0xB&&(E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB)){
+        F_reg.disable();
+    }//stall
     else{
         pc=F_reg.get_val();
         F_reg.enable();
+        // printf("now pc is %d\n",pc._get_val());
     }
     if(W_reg.get_icode()==9)
         pc=W_reg.get_valM();
 }//从M_valA、W_valM、predPC中选取合适的更新pc
 
 void FETCH::write(){
+    SelectPC();//将pc置为正确的pc，并且对预测错误、ret等情况进行插入气泡的处理
     D_reg.write_stat(stat);
     D_reg.write_icode(icode);
     D_reg.write_ifun(ifun);
@@ -85,60 +94,71 @@ void FETCH::write(){
     D_reg.write_valP(valP);
 }//对D流水线寄存器写值
 
+void FETCH::invalid(){
+    bubble();
+    stat=4;
+}
+
 void FETCH::halt(){
     stat=2;
     if(W_reg.get_stat()!=2)
         F_reg.disable();
-    else{
-        STAT=2;
-    }
+    F_reg.write_val(valP);
 }
 
 void FETCH::nop(){
     bubble();
     valP.write_val(pc._get_val()+1);
+    F_reg.write_val(valP);
 }
 
 void FETCH::rrmovq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
     valP.write_val(pc._get_val()+2);
+    F_reg.write_val(valP);
 }
 
 void FETCH::cmovle(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
     valP.write_val(pc._get_val()+2);
+    F_reg.write_val(valP);
 }
 
 void FETCH::cmovl(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
     valP.write_val(pc._get_val()+2);
+    F_reg.write_val(valP);
 }
 
 void FETCH::cmove(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
     valP.write_val(pc._get_val()+2);
+    F_reg.write_val(valP);
 }
 
 void FETCH::cmovne(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
     valP.write_val(pc._get_val()+2);
+    F_reg.write_val(valP);
 }
 
 void FETCH::cmovge(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
     valP.write_val(pc._get_val()+2);
+    F_reg.write_val(valP);
 }
 
 void FETCH::cmovg(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
     valP.write_val(pc._get_val()+2);
+    F_reg.write_val(valP);
 }
 
 void FETCH::irmovq(){
@@ -146,6 +166,7 @@ void FETCH::irmovq(){
     rB=0xF&imemory[pc._get_val()+1];
     valC.write_val(imemory+pc._get_val()+2);
     valP.write_val(pc._get_val()+10);
+    F_reg.write_val(valP);
 }
 
 void FETCH::rmmovq(){
@@ -153,6 +174,7 @@ void FETCH::rmmovq(){
     rB=0xF&imemory[pc._get_val()+1];
     valC.write_val(imemory+pc._get_val()+2);
     valP.write_val(pc._get_val()+10);
+    F_reg.write_val(valP);
 }
 
 void FETCH::mrmovq(){
@@ -160,30 +182,35 @@ void FETCH::mrmovq(){
     rB=0xF&imemory[pc._get_val()+1];
     valC.write_val(imemory+pc._get_val()+2);
     valP.write_val(pc._get_val()+10);
+    F_reg.write_val(valP);
 }
 
 void FETCH::OPq_addq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
     valP.write_val(pc._get_val()+2);
+    F_reg.write_val(valP);
 }
 
 void FETCH::OPq_subq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
     valP.write_val(pc._get_val()+2);
+    F_reg.write_val(valP);
 }
 
 void FETCH::OPq_andq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
     valP.write_val(pc._get_val()+2);
+    F_reg.write_val(valP);
 }
 
 void FETCH::OPq_xorq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
     valP.write_val(pc._get_val()+2);
+    F_reg.write_val(valP);
 }
 
 void FETCH::jmp(){
@@ -231,20 +258,26 @@ void FETCH::jg(){
 void FETCH::call(){
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
+    F_reg.write_val(valC);
+    // printf("you called call!and predPc is %d\n",F_reg.get_val()._get_val());
 }
 
 void FETCH::ret(){
     valP.write_val(pc._get_val()+1);
+    F_reg.write_val(valP);
+    // printf("you called ret!and predPc is %d\n",F_reg.get_val()._get_val());
 }
 
 void FETCH::pushq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
     valP.write_val(pc._get_val()+2);
+    F_reg.write_val(valP);
 }
 
 void FETCH::popq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
     valP.write_val(pc._get_val()+2);
+    F_reg.write_val(valP);
 }

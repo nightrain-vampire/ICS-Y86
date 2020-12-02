@@ -7,11 +7,22 @@ MEMORY Memory;
 WBACK Wback;
 
 extern "C" void CCH_QH(){
-    Fetch.fetch();
-    Decode.decode();
-    Execute.execute();
-    Memory.memory();
+    Memory.write();
+    Execute.write();
+    Decode.write();
+    Fetch.write();
+
+    // printf("herea\n");
     Wback.wback();
+    // printf("hereb\n");
+    Memory.memory();
+    // printf("herec\n");
+    Execute.execute();
+    // printf("hered\n");
+    Decode.decode();
+    // printf("heree\n");
+    Fetch.fetch();
+    // printf("heref\n");
 }
 
 extern "C" void init_imemory(char* s){
@@ -55,7 +66,7 @@ extern "C" int get_OF(){return int(OF);}
 extern "C" int get_dmemory(int index){return dmemory[index];}
 
 //读取
-extern "C" int get_STAT(){return STAT;}
+extern "C" int get_STAT(){return W_reg.get_stat();}
 
 //读取各个流水线寄存器的值
 //F_reg

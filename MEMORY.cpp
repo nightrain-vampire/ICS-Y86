@@ -3,7 +3,7 @@ using namespace std;
 void MEMORY::memory()
 {
     //将上个周期的数据写入全局变量和W流水线寄存器
-    write();
+    //write();
     read();
     if(icode==1)
     {
@@ -15,8 +15,7 @@ void MEMORY::memory()
         renewstat();
         read_memory();
         write_memory();
-        e_valE=valE;
-        e_dstE=dstE;
+        m_valM=valM;
     }
 }
 

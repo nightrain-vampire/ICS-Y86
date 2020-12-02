@@ -19,7 +19,7 @@ class MEMORY
         
     private:
         REGISTER valE,valA,valM;
-        char stat,icode,Cnd,dstE,dstM;
+        char stat=1,icode,Cnd,dstE,dstM;
         //void (MEMORY::*func[12][7])();
         REGISTER Addr;
 };

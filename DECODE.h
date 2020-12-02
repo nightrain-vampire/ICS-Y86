@@ -21,7 +21,7 @@ class DECODE
         REGISTER FwdB(char d_rval);
     private:
         REGISTER valC,valP;
-        char stat,icode,ifun,rA,rB;
+        char stat=1,icode,ifun,rA,rB;
         //void (DECODE::*func[12][7])();
         REGISTER valA,valB;
         char dstE,dstM,srcA,srcB;

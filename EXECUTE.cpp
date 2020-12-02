@@ -2,14 +2,7 @@
 using namespace std;
 void EXECUTE::execute()
 {
-    if(m_stat==3||W_reg.get_stat()==3){
-        bubble();
-        setcc=0;
-    }//可能不需要？
-    else{
-        setcc=1;
-    }//不知道这样的顺序对不对
-    write();
+    //write();
     read();
     (this->*func[icode][ifun])();//执行完毕后的结果放在valB中
     e_dstE=cond?dstE:0xF;
@@ -29,7 +22,7 @@ void EXECUTE::Initfunc()
     func[2][6]=&cmovg;
     func[3][0]=&irmovq;
     func[4][0]=&rmmovq;
-    func[2][7]=&mrmovq;
+    func[5][0]=&mrmovq;
     func[6][0]=&OPq_addq;
     func[6][1]=&OPq_subq;
     func[6][2]=&OPq_andq;
@@ -48,13 +41,20 @@ void EXECUTE::Initfunc()
 }
 
 void EXECUTE::bubble(){
-    stat=0;
+    stat=1;
     icode=1;
     ifun=0;
     dstE=dstM=0xF;
 }
 
 void EXECUTE::write(){
+    if(m_stat==3||W_reg.get_stat()==3){
+        bubble();
+        setcc=0;
+    }//可能不需要？
+    else{
+        setcc=1;
+    }//不知道这样的顺序对不对
     if(setcc){
         ZF=zf;
         OF=of;
@@ -87,7 +87,7 @@ void EXECUTE::halt()
 
 void EXECUTE::nop()
 {
-
+    bubble();
 }
 
 void EXECUTE::rrmovq()
@@ -135,7 +135,6 @@ void EXECUTE::cmovg()
 void EXECUTE::irmovq()
 {
     valB=valC;
-    printf("now called irmovq! valB=%d valC=%d\n",valB._get_val(),valC._get_val());
 }
 
 void EXECUTE::rmmovq()

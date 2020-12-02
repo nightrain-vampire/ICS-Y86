@@ -2,11 +2,7 @@
 using namespace std;
 void DECODE::decode()
 {
-    if(ifbubble())
-    {
-        bubble();
-    }
-    write();
+    //write();
     read();
     if(icode==1){
         bubble();
@@ -22,6 +18,8 @@ void DECODE::decode()
         cal_srcB();
         valA=SelFwdA(srcA);
         valB=FwdB(srcB);
+        d_srcA=srcA;
+        d_srcB=srcB;
     }
 }
 
@@ -91,6 +89,10 @@ void DECODE::cal_srcB()
 
 void DECODE::write()
 {
+    if(ifbubble())
+    {
+        bubble();
+    }
     E_reg.write_stat(stat);
     E_reg.write_icode(icode);
     E_reg.write_ifun(ifun);
@@ -166,23 +168,23 @@ REGISTER DECODE::SelFwdA(char d_rval)
 
 REGISTER DECODE::FwdB(char d_rval)
 {
-    if(d_rval==e_dstE)
+    if(d_rval==e_dstE&&d_rval!=0xf)
     {
         return e_valE;
     }
-    else if (d_rval==M_reg.get_dstM())
+    else if (d_rval==M_reg.get_dstM()&&d_rval!=0xf)
     {
         return m_valM;
     }
-    else if (d_rval==M_reg.get_dstE())
+    else if (d_rval==M_reg.get_dstE()&&d_rval!=0xf)
     {
         return M_reg.get_valE();
     }
-    else if (d_rval==W_reg.get_dstM())
+    else if (d_rval==W_reg.get_dstM()&&d_rval!=0xf)
     {
         return W_reg.get_valM();
     }
-    else if (d_rval==W_reg.get_dstE())
+    else if (d_rval==W_reg.get_dstE()&&d_rval!=0xf)
     {
         return W_reg.get_valE();
     }
@@ -202,11 +204,10 @@ REGISTER DECODE::FwdB(char d_rval)
 
 bool DECODE::ifbubble()
 {
-    bool sig1=(E_reg.get_icode()==7&&(!e_Cnd));
-    bool sig2=!(E_reg.get_icode()==5||E_reg.get_icode()==0xB);
-    bool sig3=(srcA==E_reg.get_dstM()||srcB==E_reg.get_dstM());
-    bool sig4=(D_reg.get_icode()==9||E_reg.get_icode()==9||M_reg.get_icode()==9);
-    return sig1||sig2&&sig3&&sig4;
+    bool sig1=E_reg.get_icode()==7&&!(e_Cnd);
+    bool sig2=E_reg.get_icode()==5||E_reg.get_icode()==0xB;
+    bool sig3=E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB;
+    return sig1||(sig2&&sig3);
 }
 
 bool DECODE::ifstall()

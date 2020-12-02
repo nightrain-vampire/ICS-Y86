@@ -23,7 +23,7 @@ class W_REGISTER
         void write_valM(REGISTER s){W_valM=s;}
 
     private:
-        char W_stat;
+        char W_stat=1;
         char W_icode;
         REGISTER W_valE,W_valM;
         char W_dstE,W_dstM;

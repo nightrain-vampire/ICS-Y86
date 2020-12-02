@@ -26,7 +26,7 @@ class D_REGISTER
 
     private:
         //数据成员
-        char D_stat;
+        char D_stat=1;
         char D_icode;
         char D_ifun;
         char D_rA,D_rB;
