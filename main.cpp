@@ -9,8 +9,8 @@ WBACK Wback;
 extern "C" void CCH_QH(){
     Memory.write();
     Execute.write();
-    Decode.write();
     Fetch.write();
+    Decode.write();
 
     // printf("herea\n");
     Wback.wback();
@@ -63,7 +63,7 @@ extern "C" int get_SF(){return int(SF);}
 extern "C" int get_OF(){return int(OF);}
 
 //读取运行内存
-extern "C" int get_dmemory(int index){return dmemory[index];}
+extern "C" int get_imemory(int index){return imemory[index];}
 
 //读取
 extern "C" int get_STAT(){return W_reg.get_stat();}

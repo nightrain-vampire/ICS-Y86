@@ -72,12 +72,12 @@ void FETCH::SelectPC(){
         F_reg.disable();
     }
     else if(E_reg.get_icode()==5||E_reg.get_icode()==0xB&&(E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB)){
+        F_reg.write_val(pc);
         F_reg.disable();
     }//stall
     else{
         pc=F_reg.get_val();
         F_reg.enable();
-        // printf("now pc is %d\n",pc._get_val());
     }
     if(W_reg.get_icode()==9)
         pc=W_reg.get_valM();
@@ -85,6 +85,8 @@ void FETCH::SelectPC(){
 
 void FETCH::write(){
     SelectPC();//将pc置为正确的pc，并且对预测错误、ret等情况进行插入气泡的处理
+    if(E_reg.get_icode()==5||E_reg.get_icode()==0xB&&(E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB))
+        return;
     D_reg.write_stat(stat);
     D_reg.write_icode(icode);
     D_reg.write_ifun(ifun);
@@ -259,13 +261,11 @@ void FETCH::call(){
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
     F_reg.write_val(valC);
-    // printf("you called call!and predPc is %d\n",F_reg.get_val()._get_val());
 }
 
 void FETCH::ret(){
     valP.write_val(pc._get_val()+1);
     F_reg.write_val(valP);
-    // printf("you called ret!and predPc is %d\n",F_reg.get_val()._get_val());
 }
 
 void FETCH::pushq(){

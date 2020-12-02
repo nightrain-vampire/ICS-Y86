@@ -15,7 +15,7 @@ def app_path():
 def init_ins():
     out=''
     #f=tkinter.filedialog.askopenfile()
-    f=open("../testexample/prog10.yo","r")
+    f=open("../testexample/ret-hazard.yo","r")
     lastlen=0
     lastadd=0
     add=0

@@ -86,7 +86,7 @@ void MEMORY::read_memory()
     {
         if(icode==5||icode==9||icode==0xB)
         {
-            valM.write_val(dmemory+Addr._get_val());
+            valM.write_val(imemory+Addr._get_val());
         }
         else
         {
@@ -105,7 +105,7 @@ void MEMORY::write_memory()
             long long address=Addr._get_val();
             for(int i=0;i<8;i++)
             {
-                dmemory[i+address]=temp[i];
+                imemory[i+address]=temp[i];
             }
         }
     }

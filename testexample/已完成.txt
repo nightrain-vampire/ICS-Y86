@@ -8,3 +8,6 @@ prog7.yo
 prog8.yo
 prog9.yo
 prog10.yo
+pushquestion.yo
+pushtest.yo
+ret-hazard.yo

@@ -91,6 +91,7 @@ void DECODE::write()
 {
     if(ifbubble())
     {
+        printf("you call if bubble!\n");
         bubble();
     }
     E_reg.write_stat(stat);

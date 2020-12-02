@@ -2,7 +2,6 @@
 using namespace std;
 REGISTERS registers;
 char imemory[800000];
-char dmemory[800000];
 char ZF,OF,SF,e_dstE,m_stat,e_Cnd,d_srcA,d_srcB;
 F_REGISTER F_reg;
 D_REGISTER D_reg;

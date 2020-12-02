@@ -26,7 +26,7 @@ def refresh_dmemory():
     ret=[]
     temp=""
     for i in range(0,80):
-        temp+=str(pDLL.get_dmemory(i))
+        temp+=str(pDLL.get_imemory(i))
         if i%2==1:
             temp+=" "
         if i%8==7:
