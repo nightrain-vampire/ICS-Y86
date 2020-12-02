@@ -1,6 +1,21 @@
 from ctypes import *
 pDLL = windll.LoadLibrary("../CCH_QH.dll")
-
+pDLL.get_rax.restype=c_longlong
+pDLL.get_rax.restype=c_longlong
+pDLL.get_rcx.restype=c_longlong
+pDLL.get_rdx.restype=c_longlong
+pDLL.get_rbx.restype=c_longlong
+pDLL.get_rsp.restype=c_longlong
+pDLL.get_rbp.restype=c_longlong
+pDLL.get_rsi.restype=c_longlong
+pDLL.get_rdi.restype=c_longlong
+pDLL.get_r8.restype=c_longlong
+pDLL.get_r9.restype=c_longlong
+pDLL.get_r10.restype=c_longlong
+pDLL.get_r11.restype=c_longlong
+pDLL.get_r12.restype=c_longlong
+pDLL.get_r13.restype=c_longlong
+pDLL.get_r14.restype=c_longlong
 def refresh_reg():
     return [\
     str(pDLL.get_rax()),\
@@ -38,7 +53,7 @@ def refresh_STAT():
     return pDLL.get_STAT()
 
 def refresh_F_reg():
-    return [str(pDLL.F_reg_predPC())]
+    return [hex(pDLL.F_reg_predPC())]
 
 def refresh_D_reg():
     return [\

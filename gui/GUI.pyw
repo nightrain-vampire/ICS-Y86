@@ -15,17 +15,17 @@ def app_path():
 def init_ins():
     out=''
     #f=tkinter.filedialog.askopenfile()
-    f=open("../testexample/ret-hazard.yo","r")
+    f=open("../testexample/asumr.yo","r")
     lastlen=0
     lastadd=0
     add=0
     for line in f:
         if line[0:5].strip()!='':
             add=int(line[0:5],16)
-        out+=(add-lastadd-lastlen//2)*'00'#将空着的用"0"补全
-        out+=line[7:28].strip()
-        lastadd=add
-        lastlen=len(line[7:28].strip())
+            out+=(add-lastadd-lastlen//2)*'00'#将空着的用"0"补全
+            out+=line[7:28].strip()
+            lastadd=add
+            lastlen=len(line[7:28].strip())
     f.close()
     return out
 

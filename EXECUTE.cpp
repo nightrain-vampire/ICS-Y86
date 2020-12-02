@@ -4,6 +4,7 @@ void EXECUTE::execute()
 {
     //write();
     read();
+    if(stat!=1) return;
     (this->*func[icode][ifun])();//执行完毕后的结果放在valB中
     e_dstE=cond?dstE:0xF;
     e_valE=valB;

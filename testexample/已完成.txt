@@ -1,3 +1,10 @@
+
+
+asum.yo
+asumi.yo
+
+cjr.yo
+j-cc.yo
 prog1.yo
 prog2.yo
 prog3.yo

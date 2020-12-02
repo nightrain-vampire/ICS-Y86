@@ -1,19 +1,21 @@
 #include"FETCH.h"
 using namespace std;
 void FETCH::fetch(){
-    // write();//先进行一次write，把前一次的结果传给D流水线寄存器
+    //write();//先进行一次write，把前一次的结果传给D流水线寄存器
     icode=0xF&(imemory[pc._get_val()]>>4);
     if(icode>0xB){
         stat=4;
         return;
     }
     ifun=0xF&imemory[pc._get_val()];
-    if(ifun>6||!(func[icode][ifun])){
+    if(ifun>0xB){
         stat=4;
         return;
     }
     stat=1;
+    // printf("you called fetch!now pc is %d,icode:%d,ifun=%d\n",pc._get_val(),icode,ifun);
     (this->*func[icode][ifun])();
+    F_reg.enable();
 }
 
 void FETCH::Initfunc(){
@@ -61,6 +63,7 @@ void FETCH::bubble(){
 
 void FETCH::SelectPC(){
     if(M_reg.get_icode()==7&&!e_Cnd){
+        // printf("you called jxx bubble!\n");
         pc=M_reg.get_valA();
         bubble();
         F_reg.write_val(pc);
@@ -68,14 +71,17 @@ void FETCH::SelectPC(){
     }//遇到jxx错误，插入bubble，且将F__reg置为不可修改
     else if(!(E_reg.get_icode()==5||E_reg.get_icode()==0xB&&(E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB))\
     &&(D_reg.get_icode()==9||E_reg.get_icode()==9||M_reg.get_icode()==9)){
+        // printf("you called ret bubble!\n");
         bubble();
         F_reg.disable();
     }
     else if(E_reg.get_icode()==5||E_reg.get_icode()==0xB&&(E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB)){
+        // printf("you called stall!\n");
         F_reg.write_val(pc);
         F_reg.disable();
     }//stall
     else{
+        // printf("you called normal!\n");
         pc=F_reg.get_val();
         F_reg.enable();
     }
@@ -85,8 +91,10 @@ void FETCH::SelectPC(){
 
 void FETCH::write(){
     SelectPC();//将pc置为正确的pc，并且对预测错误、ret等情况进行插入气泡的处理
-    if(E_reg.get_icode()==5||E_reg.get_icode()==0xB&&(E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB))
+    if(E_reg.get_icode()==5||E_reg.get_icode()==0xB&&(E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB)){
+        F_reg.enable();
         return;
+    }
     D_reg.write_stat(stat);
     D_reg.write_icode(icode);
     D_reg.write_ifun(ifun);
@@ -192,6 +200,7 @@ void FETCH::OPq_addq(){
     rB=0xF&imemory[pc._get_val()+1];
     valP.write_val(pc._get_val()+2);
     F_reg.write_val(valP);
+    // printf("you called OPq_add!F_reg=%d valP=%d\n",F_reg.get_val()._get_val(),valP);
 }
 
 void FETCH::OPq_subq(){
