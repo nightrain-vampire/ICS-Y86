@@ -3,9 +3,9 @@ using namespace std;
 void WBACK::wback()
 {
     read();
-    if (ifstall())
+    if (stat!=1)
     {
-        stat=2;
+        return;
     }
     else if(icode==1){
         return;
@@ -34,9 +34,4 @@ void WBACK::write()
     {
         registers.write_val(dstM,valM);
     }
-}
-
-bool WBACK::ifstall()
-{
-    return stat!=1;
 }

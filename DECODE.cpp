@@ -2,14 +2,12 @@
 using namespace std;
 void DECODE::decode()
 {
-    //write();
     read();
+    if(stat!=1){
+        return;
+    }
     if(icode==1){
         bubble();
-    }
-    else if (ifstall())
-    {
-        stat=2;
     }
     else{
         cal_dstE();
@@ -91,9 +89,8 @@ void DECODE::write()
 {
     if(ifbubble())
     {
-        // printf("you call if bubble!\n");
         bubble();
-    }
+    }//如果要插气泡就在写之前改值
     E_reg.write_stat(stat);
     E_reg.write_icode(icode);
     E_reg.write_ifun(ifun);
@@ -128,35 +125,40 @@ void DECODE::bubble()
 
 REGISTER DECODE::SelFwdA(char d_rval)
 {
-    // printf("scrA=%d e_dstE=%d\n",d_rval,e_dstE);
     if(icode==8||icode==7)
     {
         return valP;
     }
     else if(d_rval==e_dstE)
     {
+        // printf("SelA chose e_valE:%lld,d_rval=%d,e_dstE=:%d\n",e_valE,d_rval,e_dstE);
         return e_valE;
     }
     else if (d_rval==M_reg.get_dstM())
     {
+        // printf("SelA chose m_valM:%lld,d_rval=%d,M_dstM=:%d\n",m_valM,d_rval,M_reg.get_dstM());
         return m_valM;
     }
     else if (d_rval==M_reg.get_dstE())
     {
+        // printf("SelA chose m_valE:%lld,d_rval=%d,M_dstE=:%d\n",M_reg.get_valE()._get_val(),d_rval,M_reg.get_dstE());
         return M_reg.get_valE();
     }
     else if (d_rval==W_reg.get_dstM())
     {
+        // printf("SelA chose W_valM:%lld,d_rval=%d,W_dstM=:%d\n",W_reg.get_valM()._get_val(),d_rval,W_reg.get_dstM());
         return W_reg.get_valM();
     }
     else if (d_rval==W_reg.get_dstE())
     {
+        // printf("SelA chose W_valE:%lld,d_rval=%d,W_dstE=:%d\n",W_reg.get_valE()._get_val(),d_rval,W_reg.get_dstE());
         return W_reg.get_valE();
     }
     else
     {
         if(d_rval!=0xF)
         {
+            // printf("SelA chose normal!d_rval:%d valA=%lld\n",d_rval,registers.get_val(d_rval));
             return registers.get_val(d_rval);
         }
         else
@@ -206,15 +208,15 @@ REGISTER DECODE::FwdB(char d_rval)
 
 bool DECODE::ifbubble()
 {
-    bool sig1=E_reg.get_icode()==7&&!(e_Cnd);
+    bool sig1=E_reg.get_icode()==7&&!e_Cnd;
     bool sig2=E_reg.get_icode()==5||E_reg.get_icode()==0xB;
     bool sig3=E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB;
     return sig1||(sig2&&sig3);
 }
 
-bool DECODE::ifstall()
-{
-    bool sig1=(E_reg.get_icode()==5||E_reg.get_icode()==0xB);
-    bool sig2=(srcA==E_reg.get_dstM()||srcB==E_reg.get_dstM());
-    return sig1&&sig2;
-}
+// bool DECODE::ifstall()
+// {
+//     bool sig1=(E_reg.get_icode()==5||E_reg.get_icode()==0xB);
+//     bool sig2=(srcA==E_reg.get_dstM()||srcB==E_reg.get_dstM());
+//     return sig1&&sig2;
+// }

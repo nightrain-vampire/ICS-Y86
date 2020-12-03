@@ -11,6 +11,10 @@ extern "C" void CCH_QH(){
     Fetch.write();
     Execute.write();
     Decode.write();
+    if(!((E_reg.get_icode()==5||E_reg.get_icode()==0xB)&&\
+    (E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB)||\
+    (D_reg.get_icode()==9||E_reg.get_icode()==9||M_reg.get_icode()==9)))
+        F_reg.write_val(predPC);//不F_stall就更新F_reg
 
     // printf("herea\n");
     Wback.wback();

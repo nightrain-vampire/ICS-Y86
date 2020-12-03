@@ -4,11 +4,8 @@ using namespace std;
 class F_REGISTER{
     public:
         F_REGISTER(){};
-        REGISTER get_val(){return predPC;};//读数据
-        void write_val(REGISTER PredictPC){if(flag) predPC=PredictPC;}//写数据
-        void disable(){flag=0;}//置为不可更改
-        void enable(){flag=1;}
+        REGISTER get_val(){return pc;};//读数据
+        void write_val(REGISTER predPC){pc=predPC;}//写数据
     private:
-        REGISTER predPC;//初值是0
-        int flag=1;
+        REGISTER pc;//初值是0
 };

@@ -15,7 +15,6 @@ class DECODE
         void cal_srcB();
 
         bool ifbubble();
-        bool ifstall();
 
         REGISTER SelFwdA(char d_rval);
         REGISTER FwdB(char d_rval);

@@ -2,12 +2,18 @@
 using namespace std;
 void EXECUTE::execute()
 {
-    //write();
     read();
     if(stat!=1) return;
+    // printf("you called execute!now icode=%d,ifun=%d\n",icode,ifun);
     (this->*func[icode][ifun])();//执行完毕后的结果放在valB中
+    setcc=(E_reg.get_icode()==6)&&(m_stat==1)&&(W_reg.get_stat()==1);
+    if(setcc){
+        // printf("you have setcc!\n");
+        ZF=zf;
+        SF=sf;
+        OF=of;
+    }
     e_dstE=cond?dstE:0xF;
-    // printf("dstE:%d e_dstE=%d\n",dstE,e_dstE);
     e_valE=valB;
     e_Cnd=cond;
 }
@@ -50,18 +56,9 @@ void EXECUTE::bubble(){
 }
 
 void EXECUTE::write(){
-    if(m_stat==3||W_reg.get_stat()==3){
-        bubble();
-        setcc=0;
-    }//可能不需要？
-    // else{
-    //     setcc=1;
-    // }//不知道这样的顺序对不对   //只有opq需要设cc
-    if(icode==6){
-        ZF=zf;
-        OF=of;
-        SF=sf;
-    }
+    if(W_reg.get_stat()!=1){
+        return;
+    }//W_stall
     M_reg.write_stat(stat);
     M_reg.write_icode(icode);
     M_reg.write_cnd(cond);
@@ -95,7 +92,6 @@ void EXECUTE::nop()
 void EXECUTE::rrmovq()
 {
     valB=valA;
-    cond=1;
 }
 
 void EXECUTE::cmovle()
@@ -137,19 +133,16 @@ void EXECUTE::cmovg()
 void EXECUTE::irmovq()
 {
     valB=valC;
-    cond=1;
 }
 
 void EXECUTE::rmmovq()
 {
     valB.write_val(valB._get_val()+valC._get_val());
-    cond=1;
 }
 
 void EXECUTE::mrmovq()
 {
     valB.write_val(valB._get_val()+valC._get_val());
-    cond=1;
 }
 
 void EXECUTE::OPq_addq()
@@ -160,7 +153,7 @@ void EXECUTE::OPq_addq()
     zf=!out;
     of=(temp1^temp2)>=0&&(temp1^out)<0;//相加数同号，与结果异号
     sf=out<0;
-    printf("you called %d and %d!zf=%d of=%d sf=%d\n",temp2,temp1,zf,of,sf);
+    // printf("you called %lld add %lld!zf=%d of=%d sf=%d\n",temp2,temp1,zf,of,sf);
 }
 
 void EXECUTE::OPq_subq()
@@ -171,7 +164,7 @@ void EXECUTE::OPq_subq()
     zf=!out;
     of=(temp2^temp1)<0&&(temp2^out)<0;//负-正=正||正-负=负
     sf=out<0;
-    printf("you called %d sub %d!zf=%d of=%d sf=%d\n",temp2,temp1,zf,of,sf);
+    // printf("you called %lld sub %lld!zf=%d of=%d sf=%d\n",temp2,temp1,zf,of,sf);
 }
 
 void EXECUTE::OPq_andq()
@@ -182,7 +175,7 @@ void EXECUTE::OPq_andq()
     zf=!out;
     of=0;
     sf=out<0;
-    printf("you called %d and %d!zf=%d of=%d sf=%d\n",temp2,temp1,zf,of,sf);
+    // printf("you called %lld and %lld!zf=%d of=%d sf=%d\n",temp2,temp1,zf,of,sf);
 }
 
 void EXECUTE::OPq_xorq()
@@ -193,7 +186,7 @@ void EXECUTE::OPq_xorq()
     zf=!out;
     of=0;
     sf=out<0;
-    printf("you called %d xor %d!zf=%d of=%d sf=%d\n",temp2,temp1,zf,of,sf);
+    // printf("you called %lld xor %lld!zf=%d of=%d sf=%d\n",temp2,temp1,zf,of,sf);
 }
 
 void EXECUTE::jmp()//总是预测选择了条件分支
@@ -204,6 +197,7 @@ void EXECUTE::jmp()//总是预测选择了条件分支
 void EXECUTE::jle()
 {
     cond=(SF^OF)|ZF;
+    printf("you called cond!SF=%d OF=%d ZF=%d,cond=%d",SF,OF,ZF,cond);
 }
 
 void EXECUTE::jl()
@@ -234,23 +228,19 @@ void EXECUTE::jg()
 void EXECUTE::call()
 {
     valB.write_val(valB._get_val()-8);
-    cond=1;
 }
 
 void EXECUTE::ret()
 {
     valB.write_val(valB._get_val()+8);
-    cond=1;
 }
 
 void EXECUTE::pushq()
 {
     valB.write_val(valB._get_val()-8);
-    cond=1;
 }
 
 void EXECUTE::popq()
 {
     valB.write_val(valB._get_val()+8);
-    cond=1;
 }

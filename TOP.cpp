@@ -8,5 +8,5 @@ D_REGISTER D_reg;
 E_REGISTER E_reg;
 M_REGISTER M_reg;
 W_REGISTER W_reg;
-REGISTER e_valE,m_valM;
+REGISTER e_valE,m_valM,predPC;
 //生成其他的全局变量

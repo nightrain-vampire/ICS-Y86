@@ -8,9 +8,6 @@ class WBACK
         void read();
         void write();
 
-       
-        bool ifstall();
-        
     private:
         char stat=1,icode,dstE,dstM;
         REGISTER valE,valM;
