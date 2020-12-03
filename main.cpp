@@ -11,25 +11,16 @@ extern "C" void CCH_QH(){
     (E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB)||\
     (D_reg.get_icode()==9||E_reg.get_icode()==9||M_reg.get_icode()==9)))
         F_reg.write_val(predPC);//不F_stall就更新F_reg
-    else{
-        printf("F_stall!\n");
-    }
     Fetch.write();
     Memory.write();
     Execute.write();
     Decode.write();
 
-    // printf("herea\n");
     Wback.wback();
-    // printf("hereb\n");
     Memory.memory();
-    // printf("herec\n");
     Execute.execute();
-    // printf("hered\n");
     Decode.decode();
-    // printf("heree\n");
     Fetch.fetch();
-    // printf("heref\n");
 }
 
 extern "C" void init_imemory(char* s){
