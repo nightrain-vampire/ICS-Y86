@@ -128,6 +128,7 @@ void DECODE::bubble()
 
 REGISTER DECODE::SelFwdA(char d_rval)
 {
+    // printf("scrA=%d e_dstE=%d\n",d_rval,e_dstE);
     if(icode==8||icode==7)
     {
         return valP;

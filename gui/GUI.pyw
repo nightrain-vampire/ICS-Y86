@@ -15,7 +15,7 @@ def app_path():
 def init_ins():
     out=''
     #f=tkinter.filedialog.askopenfile()
-    f=open("../testexample/asumr.yo","r")
+    f=open("../testexample/abs-asum-jmp.yo","r")
     lastlen=0
     lastadd=0
     add=0
@@ -91,7 +91,7 @@ def refresh():
     for i in range(0,3):
         temp_name_size=FONT.size(CC_NAMES[i])
         temp_val_size=FONT.size(CC_VALS[i])
-        CC_FONTS.append([FONT.render(CC_NAMES[i],True,FONT_COLOR),((2*i+2)*general_size[0],0),FONT.render(CC_VALS[i],True,FONT_COLOR),((2*i+2)*general_size[0]+0.5*(temp_name_size[0]-temp_val_size[0]),general_size[1])])
+        CC_FONTS.append([FONT.render(CC_NAMES[i],True,FONT_COLOR),((2*i+6)*general_size[0],0),FONT.render(CC_VALS[i],True,FONT_COLOR),((2*i+6)*general_size[0]+0.5*(temp_name_size[0]-temp_val_size[0]),general_size[1])])
         #warning:同上
     for each in CC_FONTS:
         screen.blit(each[0],each[1])

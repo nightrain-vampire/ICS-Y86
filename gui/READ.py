@@ -35,7 +35,7 @@ def refresh_reg():
     str(pDLL.get_r14())]
 
 def refresh_cc():
-    return [str(pDLL.get_ZF()),str(pDLL.get_SF()),str(pDLL.get_SF())]
+    return [str(pDLL.get_ZF()),str(pDLL.get_SF()),str(pDLL.get_OF())]
 
 def refresh_dmemory():
     ret=[]

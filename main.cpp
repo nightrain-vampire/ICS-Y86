@@ -8,8 +8,8 @@ WBACK Wback;
 
 extern "C" void CCH_QH(){
     Memory.write();
-    Execute.write();
     Fetch.write();
+    Execute.write();
     Decode.write();
 
     // printf("herea\n");
@@ -38,13 +38,6 @@ extern "C" void init_imemory(char* s){
             imemory[i/2]=(0xFF&(temp<<4))|0x0f;
         }
     }
-    for(int i=0;i<8;i++){
-        printf("%d",imemory[i+0x18]);
-    }
-    printf("\n");
-    REGISTER a;
-    a.write_val(imemory+0x18);
-    printf("%lld",a._get_val());
 }//初始化指令数组
 
 //15个寄存器的值接口
