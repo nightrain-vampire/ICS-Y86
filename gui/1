@@ -1,0 +1,108 @@
+pygame 2.0.0 (SDL 2.0.12, python 3.8.6)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+you called normal sel!nextpc:0
+you called normal sel!nextpc:a
+you called normal sel!nextpc:38
+SelA chose m_valM:0,d_rval=15,M_dstM=:15
+you called normal sel!nextpc:42
+SelA chose m_valM:0,d_rval=15,M_dstM=:15
+you called normal sel!nextpc:4c
+you called normal sel!nextpc:56
+SelA chose m_valM:0,d_rval=15,M_dstM=:15
+you called normal sel!nextpc:60
+SelA chose m_valM:0,d_rval=15,M_dstM=:15
+you called normal sel!nextpc:6a
+SelA chose normal!d_rval:0 valA=0
+you called normal sel!nextpc:6c
+you called 0 xor 0!zf=1 of=0 sf=0
+SelA chose normal!d_rval:6 valA=4
+you called normal sel!nextpc:6e
+you called 4 and 4!zf=0 of=0 sf=0
+you called normal sel!nextpc:87
+you called normal sel!nextpc:77
+SelA chose e_valE:0,d_rval=15,e_dstE=:15
+you called normal sel!nextpc:81
+SelA chose normal!d_rval:10 valA=0
+you called normal sel!nextpc:83
+you called D_stall!
+F_stall!
+you called E-bubble!
+SelA chose m_valM:55835426829,d_rval=10,M_dstM=:10
+you called normal sel!nextpc:83
+you called 0 add 55835426829!zf=0 of=0 sf=0
+SelA chose normal!d_rval:8 valA=8
+you called normal sel!nextpc:85
+you called 24 add 8!zf=0 of=0 sf=0
+SelA chose normal!d_rval:9 valA=1
+you called normal sel!nextpc:87
+you called 4 sub 1!zf=0 of=0 sf=0
+you called normal sel!nextpc:77
+SelA chose e_valE:0,d_rval=15,e_dstE=:15
+you called normal sel!nextpc:81
+SelA chose normal!d_rval:10 valA=55835426829
+you called normal sel!nextpc:83
+you called D_stall!
+F_stall!
+you called E-bubble!
+SelA chose m_valM:824646303936,d_rval=10,M_dstM=:10
+you called normal sel!nextpc:83
+you called 55835426829 add 824646303936!zf=0 of=0 sf=0
+SelA chose normal!d_rval:8 valA=8
+you called normal sel!nextpc:85
+you called 32 add 8!zf=0 of=0 sf=0
+SelA chose normal!d_rval:9 valA=1
+you called normal sel!nextpc:87
+you called 3 sub 1!zf=0 of=0 sf=0
+you called normal sel!nextpc:77
+SelA chose e_valE:0,d_rval=15,e_dstE=:15
+you called normal sel!nextpc:81
+SelA chose normal!d_rval:10 valA=824646303936
+you called normal sel!nextpc:83
+you called D_stall!
+F_stall!
+you called E-bubble!
+SelA chose m_valM:12094812457728,d_rval=10,M_dstM=:10
+you called normal sel!nextpc:83
+you called 880481730765 add 12094812457728!zf=0 of=0 sf=0
+SelA chose normal!d_rval:8 valA=8
+you called normal sel!nextpc:85
+you called 40 add 8!zf=0 of=0 sf=0
+SelA chose normal!d_rval:9 valA=1
+you called normal sel!nextpc:87
+you called 2 sub 1!zf=0 of=0 sf=0
+you called normal sel!nextpc:77
+SelA chose e_valE:0,d_rval=15,e_dstE=:15
+you called normal sel!nextpc:81
+SelA chose normal!d_rval:10 valA=12094812457728
+you called normal sel!nextpc:83
+you called D_stall!
+F_stall!
+you called E-bubble!
+SelA chose m_valM:175924544839680,d_rval=10,M_dstM=:10
+you called normal sel!nextpc:83
+you called 12975294188493 add 175924544839680!zf=0 of=0 sf=0
+SelA chose normal!d_rval:8 valA=8
+you called normal sel!nextpc:85
+you called 48 add 8!zf=0 of=0 sf=0
+SelA chose normal!d_rval:9 valA=1
+you called normal sel!nextpc:87
+you called 1 sub 1!zf=1 of=0 sf=0
+you called normal sel!nextpc:77
+SelA chose e_valE:0,d_rval=15,e_dstE=:15
+you called normal sel!nextpc:81
+you have called D_bubble!
+you called E-bubble!
+you called jxx sel!nextpc:90
+F_stall!
+SelA chose normal!d_rval:4 valA=496
+you called normal sel!nextpc:83
+you have called D_bubble!
+you called normal sel!nextpc:85
+you have called D_bubble!
+F_stall!
+you called normal sel!nextpc:85
+you have called D_bubble!
+you called ret sel!nextpc:55
+F_stall!
+SelA chose e_valE:496,d_rval=4,e_dstE=:4
+you called normal sel!nextpc:87

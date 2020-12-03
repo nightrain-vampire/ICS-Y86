@@ -15,7 +15,7 @@ def app_path():
 def init_ins():
     out=''
     #f=tkinter.filedialog.askopenfile()
-    f=open("../testexample/abs-asum-jmp.yo","r")
+    f=open("../testexample/asum.yo","r")
     lastlen=0
     lastadd=0
     add=0

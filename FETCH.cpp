@@ -68,20 +68,29 @@ void FETCH::bubble(){
 void FETCH::SelectPC(){
     if(M_reg.get_icode()==7&&!M_reg.get_cnd()){
         pc=M_reg.get_valA();
-        printf("you called jxx return!nextpc:%d\n",pc._get_val());
+        printf("you called jxx sel!nextpc:%x\n",pc._get_val());
     }
     else if(W_reg.get_icode()==9){
         pc=W_reg.get_valM();
+        printf("you called ret sel!nextpc:%x\n",pc._get_val());
     }
     else{
         pc=F_reg.get_val();
+        printf("you called normal sel!nextpc:%x\n",pc._get_val());
     }
 }
 
 void FETCH::write(){
-    if(E_reg.get_icode()==5||E_reg.get_icode()==0xB&&(E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB)){
+    if((E_reg.get_icode()==5||E_reg.get_icode()==0xB)&&(E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB)){
+        printf("you called D_stall!\n");
         return;
     }//D_stall
+    else if((E_reg.get_icode()==7&&!e_Cnd)||\
+    (!((E_reg.get_icode()==5||E_reg.get_icode()==0xB)&&(E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB))\
+    &&(D_reg.get_icode()==9||E_reg.get_icode()==9||M_reg.get_icode()==9))){
+        printf("you have called D_bubble!\n");
+        bubble();
+    }//D_bubble
     D_reg.write_stat(stat);
     D_reg.write_icode(icode);
     D_reg.write_ifun(ifun);

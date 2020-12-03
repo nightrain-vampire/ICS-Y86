@@ -89,6 +89,7 @@ void DECODE::write()
 {
     if(ifbubble())
     {
+        printf("you called E-bubble!\n");
         bubble();
     }//如果要插气泡就在写之前改值
     E_reg.write_stat(stat);
@@ -118,7 +119,7 @@ void DECODE::bubble()
 {
     icode=1;
     ifun=0;
-    rA=0xF,rB=0xF;
+    dstE=dstM=srcA=srcB=0xF;
     REGISTER none;
     valC=none,valP=none;
 }
@@ -131,34 +132,34 @@ REGISTER DECODE::SelFwdA(char d_rval)
     }
     else if(d_rval==e_dstE)
     {
-        // printf("SelA chose e_valE:%lld,d_rval=%d,e_dstE=:%d\n",e_valE,d_rval,e_dstE);
+        printf("SelA chose e_valE:%lld,d_rval=%d,e_dstE=:%d\n",e_valE,d_rval,e_dstE);
         return e_valE;
     }
     else if (d_rval==M_reg.get_dstM())
     {
-        // printf("SelA chose m_valM:%lld,d_rval=%d,M_dstM=:%d\n",m_valM,d_rval,M_reg.get_dstM());
+        printf("SelA chose m_valM:%lld,d_rval=%d,M_dstM=:%d\n",m_valM,d_rval,M_reg.get_dstM());
         return m_valM;
     }
     else if (d_rval==M_reg.get_dstE())
     {
-        // printf("SelA chose m_valE:%lld,d_rval=%d,M_dstE=:%d\n",M_reg.get_valE()._get_val(),d_rval,M_reg.get_dstE());
+        printf("SelA chose m_valE:%lld,d_rval=%d,M_dstE=:%d\n",M_reg.get_valE()._get_val(),d_rval,M_reg.get_dstE());
         return M_reg.get_valE();
     }
     else if (d_rval==W_reg.get_dstM())
     {
-        // printf("SelA chose W_valM:%lld,d_rval=%d,W_dstM=:%d\n",W_reg.get_valM()._get_val(),d_rval,W_reg.get_dstM());
+        printf("SelA chose W_valM:%lld,d_rval=%d,W_dstM=:%d\n",W_reg.get_valM()._get_val(),d_rval,W_reg.get_dstM());
         return W_reg.get_valM();
     }
     else if (d_rval==W_reg.get_dstE())
     {
-        // printf("SelA chose W_valE:%lld,d_rval=%d,W_dstE=:%d\n",W_reg.get_valE()._get_val(),d_rval,W_reg.get_dstE());
+        printf("SelA chose W_valE:%lld,d_rval=%d,W_dstE=:%d\n",W_reg.get_valE()._get_val(),d_rval,W_reg.get_dstE());
         return W_reg.get_valE();
     }
     else
     {
         if(d_rval!=0xF)
         {
-            // printf("SelA chose normal!d_rval:%d valA=%lld\n",d_rval,registers.get_val(d_rval));
+            printf("SelA chose normal!d_rval:%d valA=%lld\n",d_rval,registers.get_val(d_rval));
             return registers.get_val(d_rval);
         }
         else
