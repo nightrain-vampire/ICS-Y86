@@ -283,4 +283,5 @@ void EXECUTE::popq()
 {
     valB.write_val(valB._get_val()+8);
     e_dstE=dstE;
+    e_valE=valB;
 }

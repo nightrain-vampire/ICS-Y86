@@ -16,6 +16,14 @@ pDLL.get_r11.restype=c_longlong
 pDLL.get_r12.restype=c_longlong
 pDLL.get_r13.restype=c_longlong
 pDLL.get_r14.restype=c_longlong
+
+pDLL.get_r14.restype=c_longlong
+pDLL.get_r14.restype=c_longlong
+pDLL.get_r14.restype=c_longlong
+pDLL.get_r14.restype=c_longlong
+pDLL.get_r14.restype=c_longlong
+pDLL.get_r14.restype=c_longlong
+
 def refresh_reg():
     return [\
     str(pDLL.get_rax()),\
@@ -55,6 +63,8 @@ def refresh_STAT():
 def refresh_F_reg():
     return [hex(pDLL.F_reg_predPC())]
 
+pDLL.D_reg_valC.restype=c_longlong
+pDLL.D_reg_valP.restype=c_longlong
 def refresh_D_reg():
     return [\
     str(pDLL.D_reg_stat()),\
@@ -65,6 +75,9 @@ def refresh_D_reg():
     str(pDLL.D_reg_valC()),\
     str(pDLL.D_reg_valP())]
 
+pDLL.E_reg_valC.restype=c_longlong
+pDLL.E_reg_valA.restype=c_longlong
+pDLL.E_reg_valB.restype=c_longlong
 def refresh_E_reg():
     return [\
     str(pDLL.E_reg_stat()),\
@@ -78,6 +91,8 @@ def refresh_E_reg():
     str(pDLL.E_reg_valA()),\
     str(pDLL.E_reg_valB())]
 
+pDLL.M_reg_valA.restype=c_longlong
+pDLL.M_reg_valE.restype=c_longlong
 def refresh_M_reg():
     return [\
     str(pDLL.M_reg_stat()),\
@@ -88,6 +103,8 @@ def refresh_M_reg():
     str(pDLL.M_reg_valE()),\
     str(pDLL.M_reg_valA())]
 
+pDLL.W_reg_valE.restype=c_longlong
+pDLL.W_reg_valM.restype=c_longlong
 def refresh_W_reg():
     return [\
     str(pDLL.W_reg_stat()),\
