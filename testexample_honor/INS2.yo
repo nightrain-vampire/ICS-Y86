@@ -1,0 +1,2 @@
+0x000: 2732	|    rrmovq? %rbx, %rdx #Invalid RRMOVQ ifun
+            |					#Should return with status INS
