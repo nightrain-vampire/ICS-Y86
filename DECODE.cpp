@@ -21,6 +21,36 @@ void DECODE::decode()
     }
 }
 
+//void DECODE::invalid()
+//{
+    //bubble();
+    //stat=4;
+//}
+
+//指令非法，返回true
+//bool DECODE::islegal()
+//{
+    //if(icode==2||icode==4||icode==5||icode==6)
+    //{
+        //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
+            //return true;
+        //}
+    //}
+    //else if (icode==3)
+    //{
+        //if(rA!=0xF||rB<0||rB>0xE||rA==rB){
+            //return true;
+        //}
+    //}
+    //else if (icode==0xA||icode==0xB)
+    //{
+        //if(rA<0||rA>0xE||rB!=0xF||rA==rB){
+            //return true;
+        //}
+    //}
+    //return false;
+//}
+
 void DECODE::cal_dstE()
 {
     //获取dstE

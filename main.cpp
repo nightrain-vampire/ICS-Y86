@@ -25,12 +25,15 @@ extern "C" void CCH_QH(){
 
 extern "C" void init_imemory(char* s){
     char temp;
+    instr_length.ll=strlen(s);
+    instr_length.ll=(instr_length.ll%2)+(instr_length.ll/2);
     for(int i=0;i<strlen(s);i++){
         if(s[i]>='0'&&s[i]<='9')
             temp=s[i]-'0';
         else temp=s[i]-'a'+10;
         if(i%2){//奇数，放在char的右边
             imemory[i/2]&=(temp|0xf0);
+            //instr_length.ll+=1;
         }
         else{//偶数，放在char的左边
             imemory[i/2]=(0xFF&(temp<<4))|0x0f;

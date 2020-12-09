@@ -16,6 +16,9 @@ class DECODE
 
         bool ifbubble();
 
+        //void invalid();
+        //bool islegal();
+
         REGISTER SelFwdA(char d_rval);
         REGISTER FwdB(char d_rval);
     private:

@@ -45,7 +45,8 @@ void MEMORY::renewstat()
 {
     bool sig1=(icode==4||icode==5||icode==8||icode==0xA||icode==9||icode==0xB);
     bool sig2=(Addr._get_val()<0||Addr._get_val()>=800000);
-    bool dem_error=sig1&&sig2;
+    bool sig3=(icode==4)&&(Addr._get_val()<instr_length.ll);
+    bool dem_error=sig1&&sig2||sig3;
     if(dem_error)
     {
         printf("dom_error!\n");
