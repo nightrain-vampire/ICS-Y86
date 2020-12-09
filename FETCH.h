@@ -37,10 +37,10 @@ class FETCH{
         void pushq();
         void popq();
 
-        bool isillegal();
+        bool isinvalid();
     private:
         REGISTER pc,valC,valP;
         char stat=1,icode,ifun,rA,rB;
         void (FETCH::*func[12][7])();
-        bool test_length;      //测试指令长度是否合法。不合法则返回true
+        bool pc_overflow=0;      //测试指令长度是否合法。不合法则返回true
 };

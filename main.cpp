@@ -26,7 +26,7 @@ extern "C" void CCH_QH(){
 extern "C" void init_imemory(char* s){
     char temp;
     instr_length.ll=strlen(s);
-    instr_length.ll=(instr_length.ll%2)+(instr_length.ll/2);
+    instr_length.ll=(instr_length.ll%2)+(instr_length.ll/2);//初始化指令在内存中占的长度
     for(int i=0;i<strlen(s);i++){
         if(s[i]>='0'&&s[i]<='9')
             temp=s[i]-'0';

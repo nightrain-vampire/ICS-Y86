@@ -2,7 +2,6 @@
 using namespace std;
 void MEMORY::memory()
 {
-    //将上个周期的数据写入全局变量和W流水线寄存器
     read();
     if(icode==1)
     {
@@ -84,12 +83,10 @@ void MEMORY::read_memory()
         if(icode==5||icode==9||icode==0xB)
         {
             valM.write_val(imemory+Addr._get_val());
-            // printf("you called normal valM!valM=%lld addr=%d\n",valM._get_val(),Addr._get_val());
         }
         else
         {
             valM.write_val(0LL);
-            // printf("you called special valM!valM=%lld addr=%d\n",valM._get_val(),Addr._get_val());
         }
     }
 }

@@ -1,4 +1,3 @@
-#需要展示的有：15个寄存器的值、3个cc的值、pc的值，stat的值、内存的状况
 import pygame
 import sys
 import os

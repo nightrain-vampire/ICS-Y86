@@ -13,10 +13,9 @@ void FETCH::fetch(){
         return;
     }
     stat=1;
-    test_length=false;
+    pc_overflow=false;
     (this->*func[icode][ifun])();
-    if(isillegal()||test_length){
-        //stat=4;
+    if(isinvalid()||pc_overflow){
         invalid();
         return;
     }
@@ -27,7 +26,7 @@ void FETCH::fetch(){
         predPC=valP;
 }
 
-bool FETCH::isillegal()
+bool FETCH::isinvalid()
 {
     //判断分支和寄存器参数是否合法
     if(icode==2||icode==4||icode==5||icode==6)
@@ -141,81 +140,49 @@ void FETCH::nop(){
 void FETCH::rrmovq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
-        //invalid();
-        //return;
-    //}
     valP.write_val(pc._get_val()+2);
 }
 
 void FETCH::cmovle(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
-        //invalid();
-        //return;
-    //}
     valP.write_val(pc._get_val()+2);
 }
 
 void FETCH::cmovl(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
-        //invalid();
-        //return;
-    //}
     valP.write_val(pc._get_val()+2);
 }
 
 void FETCH::cmove(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
-        //invalid();
-        //return;
-    //}
     valP.write_val(pc._get_val()+2);
 }
 
 void FETCH::cmovne(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
-        //invalid();
-        //return;
-    //}
     valP.write_val(pc._get_val()+2);
 }
 
 void FETCH::cmovge(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
-        //invalid();
-        //return;
-    //}
     valP.write_val(pc._get_val()+2);
 }
 
 void FETCH::cmovg(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
-        //invalid();
-        //return;
-    //}
     valP.write_val(pc._get_val()+2);
 }
 
 void FETCH::irmovq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA!=0xF||rB<0||rB>0xE||rA==rB){
-        //invalid();
-        //return;
-    //}
-    test_length=(pc._get_val()+2>=instr_length.ll);
+    pc_overflow=(pc._get_val()+2>=instr_length.ll);
     valC.write_val(imemory+pc._get_val()+2);
     valP.write_val(pc._get_val()+10);
 }
@@ -223,11 +190,7 @@ void FETCH::irmovq(){
 void FETCH::rmmovq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
-        //invalid();
-        //return;
-    //}
-    test_length=(pc._get_val()+2>=instr_length.ll);
+    pc_overflow=(pc._get_val()+2>=instr_length.ll);
     valC.write_val(imemory+pc._get_val()+2);
     valP.write_val(pc._get_val()+10);
 }
@@ -235,11 +198,7 @@ void FETCH::rmmovq(){
 void FETCH::mrmovq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
-        //invalid();
-        //return;
-    //}
-    test_length=(pc._get_val()+2>=instr_length.ll);
+    pc_overflow=(pc._get_val()+2>=instr_length.ll);
     valC.write_val(imemory+pc._get_val()+2);
     valP.write_val(pc._get_val()+10);
 }
@@ -247,87 +206,71 @@ void FETCH::mrmovq(){
 void FETCH::OPq_addq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
-        //invalid();
-        //return;
-    //}
     valP.write_val(pc._get_val()+2);
 }
 
 void FETCH::OPq_subq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
-        //invalid();
-        //return;
-    //}
     valP.write_val(pc._get_val()+2);
 }
 
 void FETCH::OPq_andq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
-        //invalid();
-        //return;
-    //}
     valP.write_val(pc._get_val()+2);
 }
 
 void FETCH::OPq_xorq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
-        //invalid();
-        //return;
-    //}
     valP.write_val(pc._get_val()+2);
 }
 
 void FETCH::jmp(){
-    test_length=(pc._get_val()+1>=instr_length.ll);
+    pc_overflow=(pc._get_val()+1>=instr_length.ll);
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
 }
 
 void FETCH::jle(){
-    test_length=(pc._get_val()+1>=instr_length.ll);
+    pc_overflow=(pc._get_val()+1>=instr_length.ll);
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
 }
 
 void FETCH::jl(){
-    test_length=(pc._get_val()+1>=instr_length.ll);
+    pc_overflow=(pc._get_val()+1>=instr_length.ll);
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
 }
 
 void FETCH::je(){
-    test_length=(pc._get_val()+1>=instr_length.ll);
+    pc_overflow=(pc._get_val()+1>=instr_length.ll);
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
 }
 
 void FETCH::jne(){
-    test_length=(pc._get_val()+1>=instr_length.ll);
+    pc_overflow=(pc._get_val()+1>=instr_length.ll);
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
 }
 
 void FETCH::jge(){
-    test_length=(pc._get_val()+1>=instr_length.ll);
+    pc_overflow=(pc._get_val()+1>=instr_length.ll);
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
 }
 
 void FETCH::jg(){
-    test_length=(pc._get_val()+1>=instr_length.ll);
+    pc_overflow=(pc._get_val()+1>=instr_length.ll);
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
 }
 
 void FETCH::call(){
-    test_length=(pc._get_val()+1>=instr_length.ll);
+    pc_overflow=(pc._get_val()+1>=instr_length.ll);
     valC.write_val(imemory+pc._get_val()+1);
     valP.write_val(pc._get_val()+9);
 }
@@ -339,19 +282,11 @@ void FETCH::ret(){
 void FETCH::pushq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB!=0xF||rA==rB){
-        //invalid();
-        //return;
-    //}
     valP.write_val(pc._get_val()+2);
 }
 
 void FETCH::popq(){
     rA=0xF&(imemory[pc._get_val()+1]>>4);
     rB=0xF&imemory[pc._get_val()+1];
-    //if(rA<0||rA>0xE||rB!=0xF||rA==rB){
-        //invalid();
-        //return;
-    //}
     valP.write_val(pc._get_val()+2);
 }
