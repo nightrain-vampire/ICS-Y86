@@ -103,7 +103,7 @@ void EXECUTE::cmovle()
 void EXECUTE::cmovl()
 {
     valB=valA;
-    cond=SF|OF;
+    cond=SF^OF;
     e_dstE=cond?dstE:0xF;
     e_valE=valB;
 }
@@ -225,7 +225,7 @@ void EXECUTE::jle()
 
 void EXECUTE::jl()
 {
-    cond=SF|OF;
+    cond=SF^OF;
     e_dstE=dstE;
     e_valE=valB;
 }

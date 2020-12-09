@@ -8,7 +8,7 @@ void FETCH::fetch(){
         return;
     }
     ifun=0xF&imemory[pc._get_val()];
-    if(ifun>0xB){
+    if(ifun>6){
         stat=4;
         return;
     }
