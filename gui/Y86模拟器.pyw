@@ -203,6 +203,5 @@ while True:
         if event.type==pygame.KEYDOWN:
             if(event.key==pygame.K_RIGHT or event.key==pygame.K_DOWN):
                 flag=1 and run
-
     pygame.time.delay(30)
 

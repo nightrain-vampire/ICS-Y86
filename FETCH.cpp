@@ -29,11 +29,14 @@ void FETCH::fetch(){
 bool FETCH::isinvalid()
 {
     //判断分支和寄存器参数是否合法
-    if(icode==2||icode==4||icode==5||icode==6)
+    if(icode==2||icode==4||icode==5)
     {
         if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
             return true;
         }
+    }
+    if(icode==6){
+        return rA<0||rA>0xE||rB<0||rB>0xE;
     }
     else if (icode==3)
     {
