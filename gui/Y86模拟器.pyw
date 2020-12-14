@@ -14,6 +14,7 @@ def app_path():
 def init_ins():
     out=''
     f=tkinter.filedialog.askopenfile()#用tkinter可视化打开文件
+    #f=open("../testexample_honor/load_forward.yo")
     lastlen=0
     lastadd=0
     add=0
@@ -108,17 +109,7 @@ def refresh():
     for each in REGISTER_FONTS:
         screen.blit(each[0],each[1])
         screen.blit(each[2],each[3])
-    '''
-    DMEMORY_VALS=refresh_dmemory()
-    DMEMORY_FONTS=[]
-    temp_len=len(DMEMORY_VALS)
-    for i in range(0,temp_len):
-        DMEMORY_FONTS.append([FONT.render(DMEMORY_VALS[i],True,FONT_COLOR),(DMEMORY_POS[0],DMEMORY_POS[1]+(i+1)*general_size[1])])
-    for each in DMEMORY_FONTS:
-        screen.blit(each[0],each[1])
-    由于内存的显示比较麻烦，且不是很有必要，所以这里直接注释掉
-    '''
-    
+
     F_reg_name=['predPC']
     F_reg_val=refresh_F_reg()
     F_reg_FONTS=[[FONT.render(F_reg_name[0]+':'+F_reg_val[0],True,FONT_COLOR),(REG_GRID[F_reg_name[0]],REG_POS[1]+3*general_size[1])]]
@@ -163,6 +154,7 @@ def refresh():
 
 flag=0
 run=1
+AUTO=0
 while True:
     screen.blit(BG,(0,0))
     screen.blit(mask,(0,0))
@@ -180,16 +172,24 @@ while True:
         screen.blit(FONT.render("RUNNING!",True,FONT_COLOR),(fbs[0]*0.6,fbs[1]*0.3))
     if STAT==2:
         run=0
+        AUTO=0
         screen.blit(FONT.render("HALT!",True,FONT_COLOR),(fbs[0]*0.6,fbs[1]*0.3))
     if STAT==3:
         run=0
+        AUTO=0
         screen.blit(FONT.render("DOMAIN ERROR!",True,FONT_COLOR),(fbs[0]*0.6,fbs[1]*0.3))
     if STAT==4:
         run=0
+        AUTO=0
         screen.blit(FONT.render("INVALID INSTRUSTION!",True,FONT_COLOR),(fbs[0]*0.6,fbs[1]*0.3))
     if flag:
         pDLL.CCH_QH()
-        flag=0
+        flag=0 or AUTO
+    screen.blit(FONT.render("MODE:",True,FONT_COLOR),(fbs[0]-4*general_size[0],0))
+    if(AUTO):
+        screen.blit(FONT.render("AUTO",True,FONT_COLOR),(fbs[0]-2*general_size[0],0))
+    else:
+        screen.blit(FONT.render("MANUAL",True,FONT_COLOR),(fbs[0]-2*general_size[0],0))
     pygame.display.flip()
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
@@ -203,5 +203,11 @@ while True:
         if event.type==pygame.KEYDOWN:
             if(event.key==pygame.K_RIGHT or event.key==pygame.K_DOWN):
                 flag=1 and run
+            elif(run==1 and AUTO==0 and event.key==pygame.K_a):
+                flag=1
+                AUTO=1
+            elif(AUTO==1 and event.key==pygame.K_a):
+                flag=0
+                AUTO=0
     pygame.time.delay(30)
 

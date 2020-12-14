@@ -21,36 +21,6 @@ void DECODE::decode()
     }
 }
 
-//void DECODE::invalid()
-//{
-    //bubble();
-    //stat=4;
-//}
-
-//指令非法，返回true
-//bool DECODE::islegal()
-//{
-    //if(icode==2||icode==4||icode==5||icode==6)
-    //{
-        //if(rA<0||rA>0xE||rB<0||rB>0xE||rA==rB){
-            //return true;
-        //}
-    //}
-    //else if (icode==3)
-    //{
-        //if(rA!=0xF||rB<0||rB>0xE||rA==rB){
-            //return true;
-        //}
-    //}
-    //else if (icode==0xA||icode==0xB)
-    //{
-        //if(rA<0||rA>0xE||rB!=0xF||rA==rB){
-            //return true;
-        //}
-    //}
-    //return false;
-//}
-
 void DECODE::cal_dstE()
 {
     //获取dstE
@@ -159,7 +129,7 @@ REGISTER DECODE::SelFwdA(char d_rval)
     {
         return valP;
     }
-    else if(d_rval==e_dstE)
+    else if(d_rval==e_dstE&&(!(M_reg.get_icode()==0xB&&M_reg.get_dstM()==4&&d_rval==M_reg.get_dstM())))
     {
         return e_valE;
     }
@@ -237,10 +207,3 @@ bool DECODE::ifbubble()
     bool sig3=E_reg.get_dstM()==d_srcA||E_reg.get_dstM()==d_srcB;
     return sig1||(sig2&&sig3);
 }
-
-// bool DECODE::ifstall()
-// {
-//     bool sig1=(E_reg.get_icode()==5||E_reg.get_icode()==0xB);
-//     bool sig2=(srcA==E_reg.get_dstM()||srcB==E_reg.get_dstM());
-//     return sig1&&sig2;
-// }
