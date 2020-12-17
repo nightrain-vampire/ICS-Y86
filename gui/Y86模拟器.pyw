@@ -1,4 +1,4 @@
-import pygame
+﻿import pygame
 import sys
 import os
 import tkinter
@@ -62,8 +62,6 @@ general_size=FONT.size('%rax')#general_size存的是所有单元的大小
 
 NEXT_NAME="NEXT"
 NEXT_size=FONT.size(NEXT_NAME)
-DMEMORY_NAME="MEMORY:"
-DMEMORY_POS=(6*general_size[0],0.1*fbs[1])
 
 REG_POS=(2*general_size[0]+2*general_size[0],0.8*fbs[1])
 REG_GRID={'stat':REG_POS[0]+2*general_size[0],\
@@ -83,6 +81,19 @@ REG_GRID={'stat':REG_POS[0]+2*general_size[0],\
     'srcA':REG_POS[0]+18*general_size[0],\
     'srcB':REG_POS[0]+20*general_size[0],\
     'predPC':REG_POS[0]+2*general_size[0]}
+
+Ins=[[FONT.render("halt",True,FONT_COLOR)],\
+    [FONT.render("nop",True,FONT_COLOR)],\
+    [FONT.render("rrmovq",True,FONT_COLOR),FONT.render("cmovle",True,FONT_COLOR),FONT.render("cmovl",True,FONT_COLOR),FONT.render("cmove",True,FONT_COLOR),FONT.render("cmovne",True,FONT_COLOR),FONT.render("cmovge",True,FONT_COLOR),FONT.render("cmovg",True,FONT_COLOR)],\
+    [FONT.render("irmovq",True,FONT_COLOR)],\
+    [FONT.render("rmmovq",True,FONT_COLOR)],\
+    [FONT.render("mrmovq",True,FONT_COLOR)],\
+    [FONT.render("OPq_addq",True,FONT_COLOR),FONT.render("OPq_subq",True,FONT_COLOR),FONT.render("OPq_andq",True,FONT_COLOR),FONT.render("OPq_xorq",True,FONT_COLOR)],\
+    [FONT.render("jmp",True,FONT_COLOR),FONT.render("jle",True,FONT_COLOR),FONT.render("jl",True,FONT_COLOR),FONT.render("je",True,FONT_COLOR),FONT.render("jne",True,FONT_COLOR),FONT.render("jge",True,FONT_COLOR),FONT.render("jg",True,FONT_COLOR)],\
+    [FONT.render("call",True,FONT_COLOR)],\
+    [FONT.render("ret",True,FONT_COLOR)],\
+    [FONT.render("pushq",True,FONT_COLOR)],\
+    [FONT.render("popq",True,FONT_COLOR)]]
 
 STAT=1
 
@@ -116,6 +127,9 @@ def refresh():
     for each in F_reg_FONTS:
         screen.blit(each[0],each[1])
 
+    F_ins=refresh_F()
+    screen.blit(Ins[int(F_ins[0])][int(F_ins[1])],(REG_POS[0]-general_size[0],REG_POS[1]+2.5*general_size[1]))
+
     D_reg_name=['stat','icode','ifun','rA','rB','valC','valP']
     D_reg_val=refresh_D_reg()
     D_reg_FONTS=[]
@@ -124,6 +138,9 @@ def refresh():
         D_reg_FONTS.append([FONT.render(D_reg_name[i]+':'+D_reg_val[i],True,FONT_COLOR),(REG_GRID[D_reg_name[i]],REG_POS[1]-0*general_size[1])])
     for each in D_reg_FONTS:
         screen.blit(each[0],each[1])
+
+    D_ins=refresh_D()
+    screen.blit(Ins[int(D_ins[0])][int(D_ins[1])],(REG_POS[0]-general_size[0],REG_POS[1]-1.5*general_size[1]))
 
     E_reg_name=['stat','icode','ifun','dstE','dstM','srcA','srcB','valC','valA','valB']
     E_reg_val=refresh_E_reg()
@@ -134,6 +151,9 @@ def refresh():
     for each in E_reg_FONTS:
         screen.blit(each[0],each[1])
 
+    E_ins=refresh_E()
+    screen.blit(Ins[int(E_ins[0])][int(E_ins[1])],(REG_POS[0]-general_size[0],REG_POS[1]-3.5*general_size[1]))
+
     M_reg_name=['stat','icode','cnd','dstE','dstM','valE','valA']
     M_reg_val=refresh_M_reg()
     M_reg_FONTS=[]
@@ -143,15 +163,22 @@ def refresh():
     for each in M_reg_FONTS:
         screen.blit(each[0],each[1])
 
+    M_ins=refresh_M()
+    screen.blit(Ins[int(M_ins[0])][int(M_ins[1])],(REG_POS[0]-general_size[0],REG_POS[1]-6.5*general_size[1]))
+
     W_reg_name=['stat','icode','dstE','dstM','valE','valM']
     W_reg_val=refresh_W_reg()
     W_reg_FONTS=[]
+
+    W_ins=refresh_W()
+    screen.blit(Ins[int(W_ins[0])][int(W_ins[1])],(REG_POS[0]-general_size[0],REG_POS[1]-9.5*general_size[1]))
+
     temp_len=len(W_reg_name)
     for i in range(0,temp_len):
         W_reg_FONTS.append([FONT.render(W_reg_name[i]+':'+W_reg_val[i],True,FONT_COLOR),(REG_GRID[W_reg_name[i]],REG_POS[1]-9*general_size[1])])
     for each in W_reg_FONTS:
         screen.blit(each[0],each[1])
-
+clock=pygame.time.Clock()
 flag=0
 run=1
 AUTO=0
@@ -197,17 +224,21 @@ while True:
             sys.exit()
         if event.type==pygame.MOUSEBUTTONDOWN:
             if(event.pos[0]>fbs[0]-NEXT_size[0] and event.pos[1]>fbs[1]-NEXT_size[1]):
-                flag=1 and run
+                flag=run
             if(event.button==5):
-                flag=1 and run
+                flag=run
         if event.type==pygame.KEYDOWN:
             if(event.key==pygame.K_RIGHT or event.key==pygame.K_DOWN):
-                flag=1 and run
+                flag=run
             elif(run==1 and AUTO==0 and event.key==pygame.K_a):
                 flag=1
                 AUTO=1
             elif(AUTO==1 and event.key==pygame.K_a):
                 flag=0
                 AUTO=0
-    pygame.time.delay(30)
+    if AUTO:
+        clock.tick(5)#自动运行的帧率设为5
+    else:
+        pygame.time.delay(30)
+
 

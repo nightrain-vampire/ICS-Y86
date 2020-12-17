@@ -36,6 +36,9 @@ class EXECUTE
         void ret();
         void pushq();
         void popq();
+
+        char get_icode(){return icode;}
+        char get_ifun(){return ifun;}
     private:
         REGISTER valA,valB,valC;
         char cond=1,stat=1,icode,ifun,dstE,dstM;

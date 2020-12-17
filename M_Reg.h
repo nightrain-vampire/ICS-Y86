@@ -12,6 +12,7 @@ class M_REGISTER
         char get_cnd(){return M_cnd;}
         char get_dstE(){return M_dstE;}
         char get_dstM(){return M_dstM;}
+        char get_ifun(){return M_ifun;}
         REGISTER get_valE(){return M_valE;}
         REGISTER get_valA(){return M_valA;}
 
@@ -23,6 +24,7 @@ class M_REGISTER
         void write_dstM(const char s){M_dstM=s;}
         void write_valE(REGISTER s){M_valE=s;}
         void write_valA(REGISTER s){M_valA=s;}
+        void write_ifun(const char s){M_ifun=s;}
 
     private:
         char M_stat=1;
@@ -30,4 +32,5 @@ class M_REGISTER
         char M_cnd;
         REGISTER M_valE,M_valA;
         char M_dstE,M_dstM;
+        char M_ifun;
 };

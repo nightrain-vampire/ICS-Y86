@@ -113,3 +113,29 @@ def refresh_W_reg():
     str(pDLL.W_reg_dstM()),\
     str(pDLL.W_reg_valE()),\
     str(pDLL.W_reg_valM())]
+
+def refresh_F():
+    return [\
+    str(pDLL.F_icode()),\
+    str(pDLL.F_ifun())]
+
+def refresh_D():
+    return [\
+    str(pDLL.D_icode()),\
+    str(pDLL.D_ifun())]
+
+def refresh_E():
+    return [\
+    str(pDLL.E_icode()),\
+    str(pDLL.E_ifun())]
+
+def refresh_M():
+    return [\
+    str(pDLL.M_icode()),\
+    str(pDLL.M_ifun())]
+
+
+def refresh_W():
+    return [\
+    str(pDLL.W_icode()),\
+    str(pDLL.W_ifun())]

@@ -23,6 +23,8 @@
 
 CPU状态为halt、domain error、invalid instructon时，前端不会再响应鼠标、键盘事件。
 
+按下键盘A键，可以将模拟器设为自动运行，再次按下A键，仍切换回手动运行状态。(见窗口右上角AUTO、MANUAL标识)
+
 
 
 本模拟器后端使用了C++编写，makefile用于编译产生动态链接库。前端使用python3编写，使用了pygame拓展包。(**想要用python运行.pyw程序的话**，由于代码应用了最近新发布的pygame2.0.0的一个实验性功能，如果之前安装了pygame包，请务必pip install --upgrade pygame)

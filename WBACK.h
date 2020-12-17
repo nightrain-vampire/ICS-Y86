@@ -8,7 +8,10 @@ class WBACK
         void read();
         void write();
 
+        char get_icode(){return icode;}
+        char get_ifun(){return ifun;}
+
     private:
-        char stat=1,icode,dstE,dstM;
+        char stat=1,icode,dstE,dstM,ifun;
         REGISTER valE,valM;
 };

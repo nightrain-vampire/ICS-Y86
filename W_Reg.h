@@ -11,6 +11,7 @@ class W_REGISTER
         char get_icode(){return W_icode;}
         char get_dstE(){return W_dstE;}
         char get_dstM(){return W_dstM;}
+        char get_ifun(){return W_ifun;}
         REGISTER get_valE(){return W_valE;}
         REGISTER get_valM(){return W_valM;}
 
@@ -19,6 +20,7 @@ class W_REGISTER
         void write_icode(const char s){W_icode=s;}
         void write_dstE(const char s){W_dstE=s;}
         void write_dstM(const char s){W_dstM=s;}
+        void write_ifun(const char s){W_ifun=s;}
         void write_valE(REGISTER s){W_valE=s;}
         void write_valM(REGISTER s){W_valM=s;}
 
@@ -27,4 +29,5 @@ class W_REGISTER
         char W_icode;
         REGISTER W_valE,W_valM;
         char W_dstE,W_dstM;
+        char W_ifun;
 };

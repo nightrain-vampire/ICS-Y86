@@ -38,6 +38,11 @@ class FETCH{
         void popq();
 
         bool isinvalid();
+
+        //接口
+        char get_icode(){return icode;}
+        char get_ifun(){return ifun;}
+
     private:
         REGISTER pc,valC,valP;
         char stat=1,icode,ifun,rA,rB;

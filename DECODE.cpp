@@ -15,7 +15,7 @@ void DECODE::decode()
         cal_srcA();
         cal_srcB();
         valA=SelFwdA(srcA);
-        valB=FwdB(srcB);
+        valB=SelFwdB(srcB);
         d_srcA=srcA;
         d_srcB=srcB;
     }
@@ -164,9 +164,9 @@ REGISTER DECODE::SelFwdA(char d_rval)
     
 }
 
-REGISTER DECODE::FwdB(char d_rval)
+REGISTER DECODE::SelFwdB(char d_rval)
 {
-    if(d_rval==e_dstE&&d_rval!=0xf)
+    if(d_rval==e_dstE&&d_rval!=0xf&&(!(M_reg.get_icode()==0xB&&M_reg.get_dstM()==4&&d_rval==M_reg.get_dstM())))
     {
         return e_valE;
     }

@@ -33,7 +33,6 @@ extern "C" void init_imemory(char* s){
         else temp=s[i]-'a'+10;
         if(i%2){//奇数，放在char的右边
             imemory[i/2]&=(temp|0xf0);
-            //instr_length.ll+=1;
         }
         else{//偶数，放在char的左边
             imemory[i/2]=(0xFF&(temp<<4))|0x0f;
@@ -110,3 +109,14 @@ extern "C" int W_reg_dstE(){return W_reg.get_dstE();}
 extern "C" int W_reg_dstM(){return W_reg.get_dstM();}
 extern "C" long long W_reg_valE(){return W_reg.get_valE()._get_val();}
 extern "C" long long W_reg_valM(){return W_reg.get_valM()._get_val();}
+
+extern "C" int F_icode(){return Fetch.get_icode();}
+extern "C" int F_ifun(){return Fetch.get_ifun();}
+extern "C" int D_icode(){return Decode.get_icode();}
+extern "C" int D_ifun(){return Decode.get_ifun();}
+extern "C" int E_icode(){return Execute.get_icode();}
+extern "C" int E_ifun(){return Execute.get_ifun();}
+extern "C" int M_icode(){return Memory.get_icode();}
+extern "C" int M_ifun(){return Memory.get_ifun();}
+extern "C" int W_icode(){return Wback.get_icode();}
+extern "C" int W_ifun(){return Wback.get_ifun();}

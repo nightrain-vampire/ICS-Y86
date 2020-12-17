@@ -38,6 +38,7 @@ void MEMORY::read(){
     Cnd=M_reg.get_cnd();
     dstE=M_reg.get_dstE();
     dstM=M_reg.get_dstM();
+    ifun=M_reg.get_ifun();
 }
 
 void MEMORY::renewstat()
@@ -72,6 +73,7 @@ void MEMORY::write()
     W_reg.write_valM(valM);
     W_reg.write_dstE(dstE);
     W_reg.write_dstM(dstM);
+    W_reg.write_ifun(ifun);
 }
 
 

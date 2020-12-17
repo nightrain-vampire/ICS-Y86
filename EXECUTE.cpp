@@ -62,6 +62,7 @@ void EXECUTE::write(){
     M_reg.write_dstM(dstM);
     M_reg.write_valE(valB);
     M_reg.write_valA(valA);
+    M_reg.write_ifun(ifun);
 }
 
 void EXECUTE::read(){

@@ -22,6 +22,7 @@ void WBACK::read(){
     dstM=W_reg.get_dstM();
     valE=W_reg.get_valE();
     valM=W_reg.get_valM();
+    ifun=W_reg.get_ifun();
 }
 
 void WBACK::write()

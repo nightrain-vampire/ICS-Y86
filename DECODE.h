@@ -20,7 +20,11 @@ class DECODE
         //bool islegal();
 
         REGISTER SelFwdA(char d_rval);
-        REGISTER FwdB(char d_rval);
+        REGISTER SelFwdB(char d_rval);
+
+        char get_icode(){return icode;}
+        char get_ifun(){return ifun;}
+        
     private:
         REGISTER valC,valP;
         char stat=1,icode,ifun,rA,rB;
