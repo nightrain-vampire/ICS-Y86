@@ -7,6 +7,7 @@ class WBACK
         void wback();//直接调用它就行
         void read();
         void write();
+        void bubble();
 
         char get_icode(){return icode;}
         char get_ifun(){return ifun;}

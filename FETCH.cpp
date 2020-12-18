@@ -4,12 +4,12 @@ void FETCH::fetch(){
     SelectPC();
     icode=0xF&(imemory[pc._get_val()]>>4);
     if(icode>0xB){
-        stat=4;
+        invalid();
         return;
     }
     ifun=0xF&imemory[pc._get_val()];
     if(ifun>6){
-        stat=4;
+        invalid();
         return;
     }
     stat=1;
@@ -49,6 +49,9 @@ bool FETCH::isinvalid()
         if(rA<0||rA>0xE||rB!=0xF||rA==rB){
             return true;
         }
+    }
+    else if(icode>0xB||ifun>6){
+        return true;
     }
     return false;
 }

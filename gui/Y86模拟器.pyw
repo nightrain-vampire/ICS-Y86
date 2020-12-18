@@ -13,8 +13,8 @@ def app_path():
 
 def init_ins():
     out=''
-    #f=tkinter.filedialog.askopenfile()#用tkinter可视化打开文件
-    f=open("../testexample_honor/ldriver.yo")
+    f=tkinter.filedialog.askopenfile()#用tkinter可视化打开文件
+    #f=open("../testexample_honor/ldriver.yo")
     lastlen=0
     lastadd=0
     add=0
@@ -237,10 +237,10 @@ while True:
                     speed=2
             if(event.key==pygame.K_RIGHT or event.key==pygame.K_DOWN):
                 flag=run
-            elif(run==1 and AUTO==0 and event.key==pygame.K_a):
+            elif(event.key==pygame.K_a and run==1 and AUTO==0):
                 flag=1
                 AUTO=1
-            elif(AUTO==1 and event.key==pygame.K_a):
+            elif(event.key==pygame.K_a and AUTO==1):
                 flag=0
                 AUTO=0
                 speed=5

@@ -8,6 +8,7 @@ void WBACK::wback()
         return;
     }
     else if(icode==1){
+        bubble();
         return;
     }
     else {
@@ -35,4 +36,16 @@ void WBACK::write()
     {
         registers.write_val(dstM,valM);
     }
+}
+
+void WBACK::bubble()
+{
+    stat=1;
+    icode=1;
+    ifun=0;
+    REGISTER none;
+    valE=none;
+    valM=none;
+    dstE=0xF;
+    dstM=0xF;
 }
