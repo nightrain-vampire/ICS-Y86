@@ -13,6 +13,7 @@ def app_path():
 
 def init_ins():
     out=''
+    valid=''
     f=tkinter.filedialog.askopenfile()#用tkinter可视化打开文件
     #f=open("../testexample_honor/ldriver.yo")
     lastlen=0
@@ -22,16 +23,22 @@ def init_ins():
         if line[0:5].strip()!='':
             add=int(line[0:5],16)
             out+=(add-lastadd-lastlen//2)*'00'#将空着的用"0"补全
+            valid+=(add-lastadd-lastlen//2)*'1'#无指令内存，均可修改
             out+=line[7:28].strip()
+            if line[29:].find('.')!=-1:
+                valid+=len(line[7:28].strip())*'1'#如果发现.这一段就是可以修改的
+            else:
+                valid+=len(line[7:28].strip())*'0'#置为不可修改
             lastadd=add
             lastlen=len(line[7:28].strip())
     f.close()
-    return out
+    return [out,valid]
 
 tk=tkinter.Tk()
 tk.withdraw()
 
-pDLL.init_imemory(init_ins().encode())#将指令传给c程序。用.encode()的方法让字符串成为二进制编码
+instr=init_ins()
+pDLL.init_imemory(instr[0].encode(),instr[1].encode())#将指令传给c程序。用.encode()的方法让字符串成为二进制编码
 SCREEN_SIZE=[tk.winfo_screenwidth(),tk.winfo_screenheight()]#用tkinter获当前屏幕大小
 PATH=app_path()+'\\'#冻结路径
 pygame.init()

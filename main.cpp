@@ -23,7 +23,7 @@ extern "C" void CCH_QH(){
     Fetch.fetch();
 }
 
-extern "C" void init_imemory(char* s){
+extern "C" void init_imemory(char* s,char* valid){
     char temp;
     instr_length.ll=strlen(s);
     instr_length.ll=(instr_length.ll%2)+(instr_length.ll/2);//初始化指令在内存中占的长度
@@ -37,6 +37,12 @@ extern "C" void init_imemory(char* s){
         else{//偶数，放在char的左边
             imemory[i/2]=(0xFF&(temp<<4))|0x0f;
         }
+    }
+    for(int i=0;i<800000;i++){
+        enable[i]=1;
+    }
+    for(int i=0;i<strlen(valid);i++){
+        enable[i/2]&=valid[i]-'0';
     }
 }//初始化指令数组
 
